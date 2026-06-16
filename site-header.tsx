@@ -112,3 +112,18 @@ export function SiteHeader() {
     </header>
   )
 }
+// components/site-header.tsx
+import { LanguageSwitcher } from "@/components/ui/language-switcher"
+
+export function SiteHeader() {
+  return (
+    <header className="flex items-center justify-between">
+      <Logo />
+      <nav>...</nav>
+      <div className="flex items-center gap-3">
+        <LanguageSwitcher variant="dropdown" align="end" />
+        <Button>Contacto</Button>
+      </div>
+    </header>
+  )
+}
