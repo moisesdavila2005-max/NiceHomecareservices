@@ -150,7 +150,7 @@ window.scrollToTop = function() {
 };
 
 window.openWhatsApp = function() {
-    const phone = '1234567890';
+    const phone = '16693314949';
     const message = 'Hola, me gustaría obtener información sobre los servicios de Nice Home Care.';
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
 };
