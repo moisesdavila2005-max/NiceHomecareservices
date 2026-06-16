@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+    <rect width="200" height="60" rx="10" fill="#0a5c3e"/>
+    <text x="20" y="40" font-family="'Playfair Display', serif" font-size="28" fill="white" font-weight="bold">🏥 Nice Home Care</text>
+    <text x="170" y="20" font-family="'Inter', sans-serif" font-size="10" fill="#a7f3d0">Cuidados</text>
+</svg>
