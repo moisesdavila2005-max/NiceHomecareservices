@@ -112,3 +112,28 @@ export function SiteHeader() {
     </header>
   )
 }
+// components/ui/language-switcher/with-detection.tsx
+"use client"
+
+import { useState, useEffect } from "react"
+import { LanguageSwitcher } from "./index"
+import { getBrowserLanguage } from "@/lib/utils/storage"
+
+export function LanguageSwitcherWithDetection() {
+  const [detectedLang, setDetectedLang] = useState<string | null>(null)
+  
+  useEffect(() => {
+    setDetectedLang(getBrowserLanguage())
+  }, [])
+  
+  return (
+    <div className="flex items-center gap-3">
+      <LanguageSwitcher variant="dropdown" />
+      {detectedLang && (
+        <span className="hidden sm:inline text-xs text-muted-foreground">
+          ({detectedLang === "es" ? "Detectado" : "Detected"}: {detectedLang.toUpperCase()})
+        </span>
+      )}
+    </div>
+  )
+}
