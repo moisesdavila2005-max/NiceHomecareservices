@@ -1,0 +1,33 @@
+"use client"
+
+export default function WhatsAppFloat() {
+  const phone = "50581543062"
+  const message = "Hi Nice Home Care Services! I saw your website and need info about home care."
+  const link = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+
+  return (
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform duration-200 group"
+      aria-label="Chat on WhatsApp"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-8 h-8 fill-white group-hover:rotate-12 transition-transform">
+        <path d="M20.52 3.48A11.9 11.9 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.17 1.6 6L0 24l6.19-1.62A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12c0-3.19-1.24-6.19-3.48-8.52ZM12 22c-1.88 0-3.7-.5-5.3-1.45l-.38-.23l-3.68.96l.98-3.57l-.25-.37A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10s-4.48 10-10 10Zm5.21-7.39c-.29-.15-1.7-.84-1.97-.94c-.26-.1-.46-.15-.65.15s-.75.94-.92 1.13c-.17.19-.34.21-.63.07c-.29-.15-1.23-.45-2.34-1.44c-.86-.77-1.45-1.72-1.62-2.01c-.17-.29-.02-.45.13-.59c.13-.13.29-.34.43-.51c.14-.17.19-.29.29-.49c.1-.19.05-.36-.02-.51c-.07-.15-.65-1.56-.89-2.14c-.23-.56-.47-.48-.65-.49l-.56-.01c-.19 0-.51.07-.78.36c-.27.29-1.02 1-.99 2.44c.02 1.44 1.04 2.83 1.19 3.02c.15.19 2.05 3.13 4.97 4.39c.69.3 1.23.48 1.65.61c.69.22 1.32.19 1.81.12c.55-.08 1.7-.69 1.94-1.36c.24-.67.24-1.24.17-1.36c-.07-.12-.26-.19-.55-.34Z"/>
+      </svg>
+    </a>
+  )
+}
+import WhatsAppFloat from './components/WhatsAppFloat'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <WhatsAppFloat />
+      </body>
+    </html>
+  )
+}
