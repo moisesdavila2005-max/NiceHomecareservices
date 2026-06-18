@@ -18,8 +18,8 @@ type Language = "es" | "en"
 
 const translations = {
   es: {
-    brand: "Nice Home Care",
-    subtitle: "Cuidados en Casa",
+    brand: "Nice Home Care Services",
+    subtitle: "We are here to help you",
     nav: {
       home: "Inicio",
       services: "Servicios",
@@ -32,8 +32,8 @@ const translations = {
     language: "Idioma",
   },
   en: {
-    brand: "Nice Home Care",
-    subtitle: "Home Care Services",
+    brand: "Nice Home Care Services",
+    subtitle: "We love to help",
     nav: {
       home: "Home",
       services: "Services",
@@ -65,7 +65,7 @@ export function SiteHeader() {
   // Cargar idioma guardado al montar
   useEffect(() => {
     setMounted(true)
-    const saved = localStorage.getItem("nhc-language") as Language | null
+    const saved = localStorage.getItem("nhcs-language") as Language | null
     if (saved && (saved === "es" || saved === "en")) {
       setLanguage(saved)
     }
@@ -74,7 +74,7 @@ export function SiteHeader() {
   // Guardar idioma cuando cambia
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem("nhc-language", language)
+      localStorage.setItem("nhcs-language", language)
       document.documentElement.lang = language
     }
   }, [language, mounted])
