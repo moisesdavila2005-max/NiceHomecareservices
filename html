@@ -1,20 +1,101 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" | "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página no encontrada - Nice Home Care</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página no encontrada | Nice Home Care Services </title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <style>
+        /* Transición suave para el cambio de idioma */
+        .lang-content {
+            transition: opacity 0.3s ease;
+        }
+        .lang-content.hidden {
+            display: none;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
-    <div class="text-center px-4">
-        <div class="text-6xl md:text-8xl font-bold text-emerald-600">404</div>
-        <h1 class="text-2xl md:text-4xl font-bold mt-4">Página no encontrada</h1>
-        <p class="text-gray-600 mt-2">Lo sentimos, la página que buscas no existe.</p>
-        <a href="/" class="inline-block mt-6 bg-emerald-600 text-white px-6 py-3 rounded-full hover:bg-emerald-700 transition">
-            <i class="fas fa-home mr-2"></i>Volver al inicio
-        </a>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    
+    <div class="text-center max-w-lg w-full">
+        
+        <!-- Selector de idioma -->
+        <div class="flex justify-center gap-2 mb-6">
+            <button onclick="setLanguage('es')" id="btn-es" class="px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition">
+                🇪🇸 Español
+            </button>
+            <button onclick="setLanguage('en')" id="btn-en" class="px-4 py-2 rounded-full bg-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-300 transition">
+                🇬🇧 English
+            </button>
+        </div>
+
+        <!-- Contenido en Español -->
+        <div id="content-es" class="lang-content">
+            <div class="text-7xl md:text-9xl font-bold text-emerald-600">404</div>
+            <h1 class="text-2xl md:text-4xl font-bold mt-4 text-gray-800">Página no encontrada</h1>
+            <p class="text-gray-600 mt-2 text-lg">Lo sentimos, la página que buscas no existe.</p>
+            <a href="/" class="inline-flex items-center mt-6 bg-emerald-600 text-white px-8 py-3 rounded-full hover:bg-emerald-700 transition shadow-md hover:shadow-lg">
+                <i class="fas fa-home mr-2"></i>Volver al inicio
+            </a>
+        </div>
+
+        <!-- Contenido en Inglés -->
+        <div id="content-en" class="lang-content hidden">
+            <div class="text-7xl md:text-9xl font-bold text-emerald-600">404</div>
+            <h1 class="text-2xl md:text-4xl font-bold mt-4 text-gray-800">Page Not Found</h1>
+            <p class="text-gray-600 mt-2 text-lg">Sorry, the page you are looking for doesn't exist.</p>
+            <a href="/" class="inline-flex items-center mt-6 bg-emerald-600 text-white px-8 py-3 rounded-full hover:bg-emerald-700 transition shadow-md hover:shadow-lg">
+                <i class="fas fa-home mr-2"></i>Back to Home
+            </a>
+        </div>
+
+        <!-- Mensaje de ayuda adicional -->
+        <p class="text-sm text-gray-400 mt-8">
+            <i class="fas fa-arrow-left mr-1"></i> 
+            <span id="help-es">¿Necesitas ayuda?<a href="/contact" class="text-emerald-600 hover:underline">Contáctanos</a></span>
+            <span id="help-en" class="hidden">Need help? <a href="/contact" class="text-emerald-600 hover:underline">Contact us</a></span>
+        </p>
     </div>
+
+    <script>
+        // Función para cambiar idioma
+        function setLanguage(lang) {
+            // Ocultar todo
+            document.getElementById('content-es').classList.add('hidden');
+            document.getElementById('content-en').classList.add('hidden');
+            document.getElementById('help-es').classList.add('hidden');
+            document.getElementById('help-en').classList.add('hidden');
+            
+            // Mostrar el seleccionado
+            if (lang === 'es') {
+                document.getElementById('content-es').classList.remove('hidden');
+                document.getElementById('help-es').classList.remove('hidden');
+                document.getElementById('btn-es').className = 'px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition';
+                document.getElementById('btn-en').className = 'px-4 py-2 rounded-full bg-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-300 transition';
+                document.documentElement.lang = 'es';
+            } else {
+                document.getElementById('content-en').classList.remove('hidden');
+                document.getElementById('help-en').classList.remove('hidden');
+                document.getElementById('btn-en').className = 'px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition';
+                document.getElementById('btn-es').className = 'px-4 py-2 rounded-full bg-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-300 transition';
+                document.documentElement.lang = 'en';
+            }
+            
+            // Guardar preferencia en localStorage
+            localStorage.setItem('preferred-language', lang);
+        }
+        
+        // Cargar idioma guardado al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language') || 'es';
+            setLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
