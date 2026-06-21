@@ -172,3 +172,194 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
     }))
   }
 }
+
+/crm-integration.ts
+// lib/crm-integration.ts
+import { db } from './firebase/config'
+import { collection, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+
+export interface CRMLead {
+  id?: string
+  name: string
+  email: string
+  phone: string
+  serviceType: string
+  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost'
+  source: string
+  notes: string[]
+  createdAt: Date
+  updatedAt: Date
+  assignedTo?: string
+  customFields?: Record<string, any>
+}
+
+export interface CRMActivity {
+  leadId: string
+  type: 'call' | 'email' | 'meeting' | 'note'
+  description: string
+  createdAt: Date
+  createdBy: string
+  duration?: number
+  outcome?: string
+}
+
+class CRMService {
+  private static instance: CRMService
+  private webhookUrl = process.env.NEXT_PUBLIC_CRM_WEBHOOK_URL
+
+  static getInstance() {
+    if (!CRMService.instance) {
+      CRMService.instance = new CRMService()
+    }
+    return CRMService.instance
+  }
+
+  // Crear lead en CRM
+  async createLead(leadData: Omit<CRMLead, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
+    try {
+      // Guardar en Firestore
+      const docRef = await addDoc(collection(db, 'crm_leads'), {
+        ...leadData,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        notes: leadData.notes || []
+      })
+
+      // Enviar a webhook externo si está configurado
+      if (this.webhookUrl) {
+        await fetch(this.webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...leadData,
+            id: docRef.id,
+            createdAt: new Date().toISOString()
+          })
+        })
+      }
+
+      return docRef.id
+    } catch (error) {
+      console.error('Error creating CRM lead:', error)
+      throw error
+    }
+  }
+
+  // Actualizar lead
+  async updateLead(leadId: string, updates: Partial<CRMLead>): Promise<void> {
+    try {
+      await updateDoc(doc(db, 'crm_leads', leadId), {
+        ...updates,
+        updatedAt: serverTimestamp()
+      })
+    } catch (error) {
+      console.error('Error updating CRM lead:', error)
+      throw error
+    }
+  }
+
+  // Registrar actividad
+  async addActivity(activity: Omit<CRMActivity, 'createdAt'>): Promise<void> {
+    try {
+      await addDoc(collection(db, 'crm_activities'), {
+        ...activity,
+        createdAt: serverTimestamp()
+      })
+
+      // Actualizar último contacto en lead
+      await updateDoc(doc(db, 'crm_leads', activity.leadId), {
+        lastContactAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      })
+    } catch (error) {
+      console.error('Error adding CRM activity:', error)
+      throw error
+    }
+  }
+
+  // Sincronizar con CRM externo (HubSpot, Salesforce, etc.)
+  async syncWithExternalCRM(leadId: string, externalId: string, platform: 'hubspot' | 'salesforce'): Promise<void> {
+    try {
+      const lead = await this.getLead(leadId)
+      
+      // Mapear campos según plataforma
+      let mappedData: any = {}
+      
+      if (platform === 'hubspot') {
+        mappedData = {
+          properties: {
+            email: lead.email,
+            firstname: lead.name.split(' ')[0],
+            lastname: lead.name.split(' ').slice(1).join(' '),
+            phone: lead.phone,
+            hs_lead_status: lead.status,
+            notes: lead.notes.join('\n')
+          }
+        }
+      } else if (platform === 'salesforce') {
+        mappedData = {
+          Email: lead.email,
+          Name: lead.name,
+          Phone: lead.phone,
+          Status: lead.status,
+          Description: lead.notes.join('\n')
+        }
+      }
+
+      // Enviar a API externa
+      const response = await fetch(`/api/crm/sync/${platform}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          externalId,
+          data: mappedData
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to sync with ${platform}`)
+      }
+
+      // Actualizar referencia externa en Firestore
+      await updateDoc(doc(db, 'crm_leads', leadId), {
+        externalId,
+        externalPlatform: platform,
+        lastSyncedAt: serverTimestamp()
+      })
+    } catch (error) {
+      console.error('Error syncing with external CRM:', error)
+      throw error
+    }
+  }
+
+  private async getLead(leadId: string): Promise<CRMLead> {
+    const leadDoc = await doc(db, 'crm_leads', leadId).get()
+    if (!leadDoc.exists()) {
+      throw new Error('Lead not found')
+    }
+    return { id: leadDoc.id, ...leadDoc.data() } as CRMLead
+  }
+
+  // Obtener estadísticas de leads
+  async getLeadStats() {
+    const leadsRef = collection(db, 'crm_leads')
+    const snapshot = await leadsRef.get()
+    
+    const stats = {
+      total: snapshot.size,
+      byStatus: {} as Record<string, number>,
+      bySource: {} as Record<string, number>,
+      recentLeads: [] as CRMLead[]
+    }
+
+    snapshot.forEach(doc => {
+      const lead = doc.data() as CRMLead
+      stats.byStatus[lead.status] = (stats.byStatus[lead.status] || 0) + 1
+      stats.bySource[lead.source] = (stats.bySource[lead.source] || 0) + 1
+    })
+
+    return stats
+  }
+}
+
+export const crmService = CRMService.getInstance()
