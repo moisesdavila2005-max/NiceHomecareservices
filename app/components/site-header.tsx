@@ -1,94 +1,106 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useCallback, useRef, useEffect, memo } from "react"
 import Link from "next/link"
-import { Heart, Menu, X } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Heart, Menu, X, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { 
+  useScrollLock, 
+  useScrollSpy, 
+  useMediaQuery, 
+  useSmoothScroll,
+  useScrollEnd,
+  useKeyboardScroll 
+} from "@/hooks"
 
-const navLinks = [
+interface NavLink {
+  label: string
+  href: string
+  section: string
+  icon?: React.ReactNode
+}
+
+const navLinks: NavLink[] = [
   { label: "Inicio", href: "/#inicio", section: "inicio" },
   { label: "Servicios", href: "/#servicios", section: "servicios" },
   { label: "Sobre Nosotros", href: "/#nosotros", section: "nosotros" },
   { label: "Contacto", href: "/#contacto", section: "contacto" },
 ]
 
-export function SiteHeader() {
+const HEADER_HEIGHT = 80
+const MOBILE_BREAKPOINT = 768
+const SCROLL_THRESHOLD = 50
+
+export const SiteHeader = memo(function SiteHeader() {
   const [open, setOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("inicio")
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
+  const lastScrollY = useRef(0)
+  
+  // Hooks personalizados
+  const isMobile = useMediaQuery(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+  useScrollLock(open, { lockTarget: "body" })
+  
+  const activeSection = useScrollSpy(
+    navLinks.map(link => link.section),
+    { offset: HEADER_HEIGHT, throttleDelay: 100 }
+  )
+  
+  const { scrollToElement } = useSmoothScroll({ 
+    offset: HEADER_HEIGHT, 
+    behavior: "smooth" 
+  })
+  
+  const { isAtBottom, scrollPercentage } = useScrollEnd({ 
+    threshold: 50,
+    enabled: true 
+  })
+  
+  const keyboardScroll = useKeyboardScroll({ 
+    enabled: true, 
+    scrollAmount: 100,
+    preventDefault: true
+  })
 
-  // Scroll suave a una sección
-  const scrollToSection = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const headerOffset = 80 // Altura del header + un poco de margen
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      })
-    }
-  }, [])
-
-  // Manejar clic en enlaces
-  const handleLinkClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault()
-    scrollToSection(sectionId)
-    setOpen(false)
-    
-    // Actualizar URL sin recargar
-    window.history.pushState({}, "", `/#${sectionId}`)
-  }, [scrollToSection])
-
-  // Detectar sección activa mientras se hace scroll
+  // Detectar scroll para cambiar estilo del header
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navLinks.map(link => link.section)
-      
-      // Encontrar la sección actualmente visible
-      for (const section of sections.reverse()) { // Reverse para priorizar las últimas secciones
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          // Si la sección está en la parte superior de la ventana (con un margen)
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > SCROLL_THRESHOLD)
+      setShowBackToTop(currentScrollY > 300)
+      lastScrollY.current = currentScrollY
     }
 
-    window.addEventListener("scroll", handleScroll)
-    handleScroll() // Llamada inicial
-    
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
+
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Manejar clic en enlaces
+  const handleLinkClick = useCallback((
+    e: React.MouseEvent<HTMLAnchorElement>, 
+    sectionId: string
+  ) => {
+    e.preventDefault()
+    scrollToElement(sectionId, { updateUrl: true })
+    setOpen(false)
+  }, [scrollToElement])
+
+  // Logo click handler
+  const handleLogoClick = useCallback(() => {
+    scrollToElement("inicio", { updateUrl: true })
+  }, [scrollToElement])
+
   // Cerrar menú al redimensionar
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setOpen(false)
-      }
+    if (!isMobile && open) {
+      setOpen(false)
     }
-
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  // Prevenir scroll del body cuando el menú móvil está abierto
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [open])
+  }, [isMobile, open])
 
   // Cerrar menú al presionar ESC
   useEffect(() => {
@@ -102,84 +114,221 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", handleEsc)
   }, [open])
 
+  // Cerrar menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (open && headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [open])
+
+  // Prevenir scroll en elementos táctiles cuando el menú está abierto
+  useEffect(() => {
+    if (!open) return
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (open) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: false })
+    return () => document.removeEventListener("touchmove", handleTouchMove)
+  }, [open])
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
-        <button
-          onClick={() => scrollToSection("inicio")}
-          className="flex items-center gap-3 transition-opacity hover:opacity-80"
-          aria-label="Ir al inicio"
-        >
-          <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Heart className="size-5" fill="currentColor" />
-          </span>
-          <span className="flex flex-col leading-tight">
-            <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
-              Nice Home Care
-            </span>
-            <span className="text-xs text-muted-foreground">Cuidados en Casa</span>
-          </span>
-        </button>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={(e) => handleLinkClick(e, link.section)}
-              className={`text-sm font-medium transition-colors hover:text-foreground ${
-                activeSection === link.section
-                  ? "text-foreground border-b-2 border-primary"
-                  : "text-muted-foreground"
-              }`}
+    <>
+      <header 
+        ref={headerRef}
+        className={cn(
+          "fixed top-0 z-50 w-full transition-all duration-300",
+          isScrolled 
+            ? "border-b border-border/60 bg-background/95 backdrop-blur-md shadow-lg" 
+            : "bg-background/85 backdrop-blur-sm",
+          open && "shadow-xl"
+        )}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+          {/* Logo con animación */}
+          <motion.button
+            onClick={handleLogoClick}
+            className="group flex items-center gap-3 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
+            aria-label="Ir al inicio"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <motion.span 
+              className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground"
+              whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+              transition={{ duration: 0.5 }}
             >
-              {link.label}
-            </button>
-          ))}
-        </nav>
+              <Heart className="size-5" fill="currentColor" />
+            </motion.span>
+            <span className="flex flex-col leading-tight">
+              <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
+                Nice Home Care
+              </span>
+              <span className="text-xs text-muted-foreground">Cuidados en Casa</span>
+            </span>
+          </motion.button>
 
-        <div className="hidden md:block">
-          <Button asChild className="rounded-full px-5">
-            <button onClick={(e) => handleLinkClick(e as any, "contacto")}>
-              Solicitar Consulta
-            </button>
-          </Button>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground md:hidden"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
-      </div>
-
-      {/* Menú móvil con overlay */}
-      {open && (
-        <div className="fixed inset-x-0 top-[73px] bottom-0 z-40 bg-background/95 backdrop-blur-sm md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.href}
+                href={link.href}
                 onClick={(e) => handleLinkClick(e, link.section)}
-                className={`rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors hover:bg-secondary hover:text-foreground ${
+                className={cn(
+                  "relative text-sm font-medium transition-all duration-300 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-1 py-0.5",
                   activeSection === link.section
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground"
-                }`}
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:scale-105"
+                )}
+                aria-current={activeSection === link.section ? "location" : undefined}
               >
                 {link.label}
-              </button>
+                {activeSection === link.section && (
+                  <motion.span 
+                    className="absolute -bottom-4 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    layoutId="activeSection"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </Link>
             ))}
-            <Button asChild className="mt-2 w-full rounded-full">
-              <button onClick={(e) => handleLinkClick(e as any, "contacto")}>
-                Solicitar Consulta
-              </button>
-            </Button>
           </nav>
+
+          {/* Desktop CTA */}
+          <div className="hidden md:block">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button asChild className="rounded-full px-5 shadow-sm transition-all hover:shadow-md">
+                <Link href="/#contacto" onClick={(e) => handleLinkClick(e as any, "contacto")}>
+                  Solicitar Consulta
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className={cn(
+              "inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-secondary md:hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+              open && "bg-secondary"
+            )}
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            whileTap={{ scale: 0.95 }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={open ? "close" : "menu"}
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {open ? <X className="size-5" /> : <Menu className="size-5" />}
+              </motion.div>
+            </AnimatePresence>
+          </motion.button>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Menu con animación */}
+        <AnimatePresence>
+          {open && (
+            <motion.div 
+              id="mobile-menu"
+              className="fixed inset-x-0 top-[73px] bottom-0 z-40 bg-background/95 backdrop-blur-sm md:hidden"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <nav 
+                className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4" 
+                aria-label="Móvil"
+              >
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link.section)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-medium transition-all hover:bg-secondary hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                        activeSection === link.section
+                          ? "bg-secondary text-foreground"
+                          : "text-muted-foreground"
+                      )}
+                      aria-current={activeSection === link.section ? "location" : undefined}
+                    >
+                      <span className="w-1 h-1 rounded-full bg-primary/50" />
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                  className="mt-4"
+                >
+                  <Button asChild className="w-full rounded-full shadow-sm">
+                    <Link href="/#contacto" onClick={(e) => handleLinkClick(e as any, "contacto")}>
+                      Solicitar Consulta
+                    </Link>
+                  </Button>
+                </motion.div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Barra de progreso de scroll */}
+      <motion.div 
+        className="fixed top-0 left-0 z-50 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary"
+        style={{ width: `${scrollPercentage}%` }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: scrollPercentage > 2 ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Botón de volver arriba */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            onClick={keyboardScroll.scrollToTop}
+            className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Volver arriba"
+          >
+            <ChevronUp className="size-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Offset para compensar el header fijo en el contenido */}
+      <div className="h-[73px]" aria-hidden="true" />
+    </>
   )
-}
+})
