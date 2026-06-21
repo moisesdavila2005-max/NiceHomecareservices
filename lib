@@ -1,0 +1,174 @@
+// lib/seo.ts
+import { Metadata } from 'next'
+import { Locale } from '@/i18n'
+
+interface SEOProps {
+  title?: string
+  description?: string
+  keywords?: string[]
+  image?: string
+  url?: string
+  locale?: Locale
+  type?: 'website' | 'article' | 'product'
+  publishedTime?: string
+  modifiedTime?: string
+  authors?: string[]
+  tags?: string[]
+}
+
+const defaultSEO = {
+  title: 'Nice Home Care - Professional Home Care Services',
+  description: 'Professional home care services for seniors and special needs. Medical and psychological care in your home.',
+  keywords: ['home care', 'elderly care', 'healthcare', 'nursing', 'caregiver'],
+  image: '/og-image.jpg',
+  siteName: 'Nice Home Care'
+}
+
+export function generateSEO({
+  title,
+  description,
+  keywords,
+  image,
+  url,
+  locale = 'es',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  authors,
+  tags
+}: SEOProps): Metadata {
+  const finalTitle = title ? `${title} | Nice Home Care` : defaultSEO.title
+  const finalDescription = description || defaultSEO.description
+  const finalKeywords = keywords || defaultSEO.keywords
+  const finalImage = image || defaultSEO.image
+  const finalUrl = url || (typeof window !== 'undefined' ? window.location.href : '/')
+
+  return {
+    title: finalTitle,
+    description: finalDescription,
+    keywords: finalKeywords,
+    
+    // Open Graph
+    openGraph: {
+      title: finalTitle,
+      description: finalDescription,
+      images: [{
+        url: finalImage,
+        width: 1200,
+        height: 630,
+        alt: finalTitle
+      }],
+      locale: locale,
+      type: type,
+      siteName: defaultSEO.siteName,
+      url: finalUrl,
+      ...(publishedTime && { publishedTime }),
+      ...(modifiedTime && { modifiedTime }),
+      ...(authors && { authors }),
+      ...(tags && { tags })
+    },
+    
+    // Twitter Card
+    twitter: {
+      card: 'summary_large_image',
+      title: finalTitle,
+      description: finalDescription,
+      images: [finalImage],
+      creator: '@nicehomecare',
+      site: '@nicehomecare'
+    },
+    
+    // Robots
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1
+      }
+    },
+    
+    // Alternates (idiomas)
+    alternates: {
+      languages: {
+        'es': '/es',
+        'en': '/en',
+        'pt': '/pt',
+        'ar': '/ar',
+        'he': '/he',
+        'x-default': '/'
+      }
+    },
+    
+    // Verificación de sitios
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION
+    },
+    
+    // Otros metadatos
+    category: 'healthcare',
+    applicationName: defaultSEO.siteName,
+    referrer: 'origin-when-cross-origin',
+    creator: 'Nice Home Care Team',
+    publisher: 'Nice Home Care',
+    formatDetection: {
+      email: true,
+      address: true,
+      telephone: true
+    }
+  }
+}
+
+// Esquema JSON-LD para SEO estructurado
+export function generateOrganizationSchema(locale: Locale = 'es') {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalOrganization',
+    name: 'Nice Home Care',
+    alternateName: 'Nice Home Care Services',
+    description: defaultSEO.description,
+    url: process.env.NEXT_PUBLIC_SITE_URL,
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
+    email: 'contact@nicehomecare.com',
+    telephone: '+1 234 567 890',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '123 Care Street',
+      addressLocality: 'Health City',
+      addressRegion: 'HC',
+      postalCode: '12345',
+      addressCountry: locale === 'es' ? 'ES' : 'US'
+    },
+    sameAs: [
+      'https://facebook.com/nicehomecare',
+      'https://twitter.com/nicehomecare',
+      'https://instagram.com/nicehomecare',
+      'https://linkedin.com/company/nicehomecare'
+    ],
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL}/search?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  }
+}
+
+export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${process.env.NEXT_PUBLIC_SITE_URL}${item.url}`
+    }))
+  }
+}
