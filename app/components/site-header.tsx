@@ -1,44 +1,53 @@
+// components/site-header.tsx
 "use client"
 
 import { useState, useCallback, useRef, useEffect, memo } from "react"
 import Link from "next/link"
+import { useLocale, useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from "framer-motion"
 import { Heart, Menu, X, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { LanguageSwitcher } from "./language-switcher"
 import { 
   useScrollLock, 
   useScrollSpy, 
   useMediaQuery, 
   useSmoothScroll,
   useScrollEnd,
-  useKeyboardScroll 
+  useKeyboardScroll,
+  useGSAPAnimations
 } from "@/hooks"
 
 interface NavLink {
   label: string
   href: string
   section: string
-  icon?: React.ReactNode
+  translationKey: string
 }
 
 const navLinks: NavLink[] = [
-  { label: "Inicio", href: "/#inicio", section: "inicio" },
-  { label: "Servicios", href: "/#servicios", section: "servicios" },
-  { label: "Sobre Nosotros", href: "/#nosotros", section: "nosotros" },
-  { label: "Contacto", href: "/#contacto", section: "contacto" },
+  { label: "Inicio", href: "/#inicio", section: "inicio", translationKey: "home" },
+  { label: "Servicios", href: "/#servicios", section: "servicios", translationKey: "services" },
+  { label: "Sobre Nosotros", href: "/#nosotros", section: "nosotros", translationKey: "about" },
+  { label: "Contacto", href: "/#contacto", section: "contacto", translationKey: "contact" },
 ]
 
 const HEADER_HEIGHT = 80
 const MOBILE_BREAKPOINT = 768
-const SCROLL_THRESHOLD = 50
 
 export const SiteHeader = memo(function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
+  const logoRef = useRef<HTMLButtonElement>(null)
+  const titleRef = useRef<HTMLSpanElement>(null)
   const lastScrollY = useRef(0)
+  
+  const locale = useLocale()
+  const t = useTranslations('header')
+  const tCommon = useTranslations('common')
   
   // Hooks personalizados
   const isMobile = useMediaQuery(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
@@ -65,11 +74,13 @@ export const SiteHeader = memo(function SiteHeader() {
     preventDefault: true
   })
 
+  const { headerParallax, floatAnimation, hover3DEffect, cleanup } = useGSAPAnimations()
+
   // Detectar scroll para cambiar estilo del header
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-      setIsScrolled(currentScrollY > SCROLL_THRESHOLD)
+      setIsScrolled(currentScrollY > 50)
       setShowBackToTop(currentScrollY > 300)
       lastScrollY.current = currentScrollY
     }
@@ -79,6 +90,29 @@ export const SiteHeader = memo(function SiteHeader() {
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Inicializar animaciones GSAP
+  useEffect(() => {
+    if (!headerRef.current) return
+
+    // Efecto parallax en el header
+    const cleanupParallax = headerParallax(headerRef, {
+      start: 'top top',
+      end: 'bottom center',
+      scrub: 0.5
+    })
+
+    // Animación de float para el logo
+    if (logoRef.current) {
+      const cleanupFloat = floatAnimation(logoRef.current, 3, 10)
+      return () => {
+        cleanupFloat?.()
+        cleanupParallax?.()
+      }
+    }
+
+    return cleanup
+  }, [headerParallax, floatAnimation, cleanup])
 
   // Manejar clic en enlaces
   const handleLinkClick = useCallback((
@@ -90,7 +124,7 @@ export const SiteHeader = memo(function SiteHeader() {
     setOpen(false)
   }, [scrollToElement])
 
-  // Logo click handler
+  // Logo click handler con animación
   const handleLogoClick = useCallback(() => {
     scrollToElement("inicio", { updateUrl: true })
   }, [scrollToElement])
@@ -126,20 +160,6 @@ export const SiteHeader = memo(function SiteHeader() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [open])
 
-  // Prevenir scroll en elementos táctiles cuando el menú está abierto
-  useEffect(() => {
-    if (!open) return
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (open) {
-        e.preventDefault()
-      }
-    }
-
-    document.addEventListener("touchmove", handleTouchMove, { passive: false })
-    return () => document.removeEventListener("touchmove", handleTouchMove)
-  }, [open])
-
   return (
     <>
       <header 
@@ -153,11 +173,12 @@ export const SiteHeader = memo(function SiteHeader() {
         )}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
-          {/* Logo con animación */}
+          {/* Logo con animaciones GSAP y Framer Motion */}
           <motion.button
+            ref={logoRef}
             onClick={handleLogoClick}
             className="group flex items-center gap-3 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
-            aria-label="Ir al inicio"
+            aria-label={t('title')}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -168,53 +189,60 @@ export const SiteHeader = memo(function SiteHeader() {
             >
               <Heart className="size-5" fill="currentColor" />
             </motion.span>
-            <span className="flex flex-col leading-tight">
+            <span ref={titleRef} className="flex flex-col leading-tight">
               <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
-                Nice Home Care
+                {t('title')}
               </span>
-              <span className="text-xs text-muted-foreground">Cuidados en Casa</span>
+              <span className="text-xs text-muted-foreground">
+                {t('subtitle')}
+              </span>
             </span>
           </motion.button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.section)}
-                className={cn(
-                  "relative text-sm font-medium transition-all duration-300 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-1 py-0.5",
-                  activeSection === link.section
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:scale-105"
-                )}
-                aria-current={activeSection === link.section ? "location" : undefined}
-              >
-                {link.label}
-                {activeSection === link.section && (
-                  <motion.span 
-                    className="absolute -bottom-4 left-0 right-0 h-0.5 bg-primary rounded-full"
-                    layoutId="activeSection"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button asChild className="rounded-full px-5 shadow-sm transition-all hover:shadow-md">
-                <Link href="/#contacto" onClick={(e) => handleLinkClick(e as any, "contacto")}>
-                  Solicitar Consulta
+          <div className="flex items-center gap-4">
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(e, link.section)}
+                  className={cn(
+                    "relative text-sm font-medium transition-all duration-300 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-1 py-0.5",
+                    activeSection === link.section
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:scale-105"
+                  )}
+                  aria-current={activeSection === link.section ? "location" : undefined}
+                >
+                  {t(`nav.${link.translationKey}`)}
+                  {activeSection === link.section && (
+                    <motion.span 
+                      className="absolute -bottom-4 left-0 right-0 h-0.5 bg-primary rounded-full"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
-              </Button>
-            </motion.div>
+              ))}
+            </nav>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
+            {/* Desktop CTA */}
+            <div className="hidden md:block">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button asChild className="rounded-full px-5 shadow-sm transition-all hover:shadow-md">
+                  <Link href="/#contacto" onClick={(e) => handleLinkClick(e as any, "contacto")}>
+                    {t('cta')}
+                  </Link>
+                </Button>
+              </motion.div>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -244,7 +272,7 @@ export const SiteHeader = memo(function SiteHeader() {
           </motion.button>
         </div>
 
-        {/* Mobile Menu con animación */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {open && (
             <motion.div 
@@ -278,7 +306,7 @@ export const SiteHeader = memo(function SiteHeader() {
                       aria-current={activeSection === link.section ? "location" : undefined}
                     >
                       <span className="w-1 h-1 rounded-full bg-primary/50" />
-                      {link.label}
+                      {t(`nav.${link.translationKey}`)}
                     </Link>
                   </motion.div>
                 ))}
@@ -286,13 +314,16 @@ export const SiteHeader = memo(function SiteHeader() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: navLinks.length * 0.05 }}
-                  className="mt-4"
+                  className="mt-4 space-y-2"
                 >
                   <Button asChild className="w-full rounded-full shadow-sm">
                     <Link href="/#contacto" onClick={(e) => handleLinkClick(e as any, "contacto")}>
-                      Solicitar Consulta
+                      {t('cta')}
                     </Link>
                   </Button>
+                  <div className="flex justify-center pt-2">
+                    <LanguageSwitcher />
+                  </div>
                 </motion.div>
               </nav>
             </motion.div>
@@ -300,7 +331,7 @@ export const SiteHeader = memo(function SiteHeader() {
         </AnimatePresence>
       </header>
 
-      {/* Barra de progreso de scroll */}
+      {/* Barra de progreso de scroll con gradiente animado */}
       <motion.div 
         className="fixed top-0 left-0 z-50 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary"
         style={{ width: `${scrollPercentage}%` }}
@@ -309,25 +340,28 @@ export const SiteHeader = memo(function SiteHeader() {
         transition={{ duration: 0.3 }}
       />
 
-      {/* Botón de volver arriba */}
+      {/* Botón de volver arriba con efecto 3D */}
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
             onClick={keyboardScroll.scrollToTop}
-            className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             initial={{ opacity: 0, scale: 0.5, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: 20 }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ 
+              scale: 1.1,
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)"
+            }}
             whileTap={{ scale: 0.9 }}
-            aria-label="Volver arriba"
+            aria-label={tCommon('backToTop')}
           >
             <ChevronUp className="size-5" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Offset para compensar el header fijo en el contenido */}
+      {/* Offset para compensar el header fijo */}
       <div className="h-[73px]" aria-hidden="true" />
     </>
   )
