@@ -75,9 +75,9 @@
             animation: pulseSlow 2s ease-in-out infinite;
         }
         
-        @keyframes pulseSlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px)
+            50% { transform: translateY(-10px) }
         }
         
         .whatsapp-float {
@@ -101,20 +101,21 @@
 <body class="smooth-scroll">
 
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/16693314949?text=Hola%2C%20me%20gustaría%C3%B3n%20obtener%20información%C3%B3n%20sobre%201os%20los%20servicios Nice Home Care Services" 
+    <a  href="https://wa.me/16693314949?text=Hola%2C%20me%20gustaría%C3%B3n%20obtener%20información%C3%B3n%20sobre%201os%20los%20servicios Nice Home Care Services" 
        target="_blank" 
        class="whatsapp-float bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110">
-        <i class="fab fa-whatsapp text-2xl"></i>
+ <i class="fab fa-whatsapp text-2xl"></i>
     </a>
 
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 max-w-7x1">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
+  <div class="container mx-auto px-4 py-4 max-w-7x1">
+  <div class="flex justify-between items-center">
+                
+            <!-- Logo -->
 <a href="/" class="flex items-center gap-3 group">
      <div class="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-           <i class="fas fa-heart text-white text-xl"></i>
+  <i class="fas fa-heart text-white text-xl"></i>
      </div>
      <div>
          <h1 class="font-serif text-xl font-bold text-gray-800">Nice Home Care Services</h1>
@@ -154,7 +155,7 @@
                 <a href="#testimonios" class="py-2 text-gray-600 hover:text-emerald-600 transition-colors">Testimonios</a>
                 <a href="#contacto" class="py-2 text-gray-600 hover:text-emerald-600 transition-colors">Contacto</a>
                 <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-6 py-2 rounded-full text-center mt-2">
-                    Solicitar Consulta
+    Solicitar Consulta
                 </a>
             </div>
         </div>
@@ -165,24 +166,19 @@
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="animate-float">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif leading-tight mb-6">
-                        Cuidado Profesional en <span class="text-yellow-300">Tu Hogar</span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif leading-tight mb-6">Cuidado Profesional en el hogar<span class="text-yellow-300">Tu Hogar</>
                     </h1>
                     <p class="text-lg md:text-xl mb-8 opacity-90">
-                        Brindamos atención personalizada con calidez y respeto para tus seres queridos. 
-                        Profesionales capacitados disponibles 24/7.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
+   Brindamos atención personalizada con calidez y respeto para tí o tus seres queridos. 
+ Profesionales capacitados disponibles 24/7.
+   </p>
+   <div class="flex flex-col sm:flex-row gap-4">
                         <a href="#contacto" class="bg-white text-emerald-700 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105 text-center">
-                            Consulta Gratuita
-                        </a>
-                        <a href="#servicios" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-emerald-700 transition-all text-center">
-                            Ver Servicios
-                        </a>
-                    </div>
-                    
-                    <!-- Stats -->
-                    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/20">
+    <a href="#servicios" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-emerald-700 transition-all text-center">
+         Ver Servicios
+      </a>
+        <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/20">
                         <div>
                             <p class="text-2xl font-bold">500+</p>
                             <p class="text-sm opacity-80">Pacientes Felices</p>
