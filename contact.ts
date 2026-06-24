@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { Resend } from "resend";
+import { Twilio } from "twilio";
 import { publicProcedure, router, protectedProcedure } from "../_core/trpc";
 import {
   createContactSubmission,
@@ -23,12 +24,23 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
+// Inicializar Twilio solo si las credenciales están configuradas
+const twilio = 
+  process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+    ? new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+    : null;
+
 const CONTACT_EMAILS = {
-  primary: "migdaliadav.usa@gmail.com",
-  secondary: "moisesdavila2005@gmail.com",
+  primary: "moisesdavila2005@gmail.com",
+  secondary: "info@nicehomecareservices.com",
+  cc: "migdaliadav.usa@gmail.com",
 } as const;
 
-const EMAIL_FROM = process.env.EMAIL_FROM || "Nice Home Care Services <onboarding@resend.dev>";
+const EMAIL_FROM = process.env.EMAIL_FROM || "Nice Home Care Services <info@nicehomecareservices.com>";
+
+// Twilio phone numbers and configuration
+const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || "+1(669) 331 4949";
+const BUSINESS_PHONE_NUMBER = "+1(669) 331 4949";
 
 // ============================================================================
 // VALIDATION SCHEMAS
@@ -175,7 +187,7 @@ function generateContactEmail(input: ContactFormInput, submissionId: number): st
 }
 
 /**
- * Envía el email de notificación
+ * Envía el email de notificación a múltiples direcciones
  */
 async function sendContactNotification(
   input: ContactFormInput,
@@ -203,10 +215,11 @@ ${input.message}
 Submission ID: #${submissionId}
     `;
 
+    // Send to both primary email and info@nicehomecareservices.com with CC to migdaliadav.usa@gmail.com
     const response = await resend.emails.send({
       from: EMAIL_FROM,
-      to: [CONTACT_EMAILS.primary],
-      cc: [CONTACT_EMAILS.secondary],
+      to: [CONTACT_EMAILS.primary, CONTACT_EMAILS.secondary],
+      cc: [CONTACT_EMAILS.cc],
       subject: `New Contact Form Submission from ${input.name}`,
       html: emailHtml,
       text: textVersion,
@@ -224,6 +237,39 @@ Submission ID: #${submissionId}
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown email error",
+    };
+  }
+}
+
+/**
+ * Envía notificación por SMS via Twilio
+ */
+async function sendSMSNotification(
+  input: ContactFormInput,
+  submissionId: number
+): Promise<{ success: boolean; error?: string }> {
+  if (!twilio) {
+    console.warn("[Contact] Twilio not configured, skipping SMS send");
+    return { success: false, error: "SMS service not configured" };
+  }
+
+  try {
+    // Send SMS notification to business phone with contact details
+    const smsMessage = `New contact from ${input.name} (ID: #${submissionId})\nEmail: ${input.email}\nPhone: ${input.phone || 'N/A'}\nMessage: ${input.message.substring(0, 100)}...`;
+
+    const message = await twilio.messages.create({
+      body: smsMessage,
+      from: TWILIO_PHONE_NUMBER,
+      to: BUSINESS_PHONE_NUMBER,
+    });
+
+    console.info(`[Contact] SMS sent successfully for submission #${submissionId}: ${message.sid}`);
+    return { success: true };
+  } catch (error) {
+    console.error("[Contact] SMS send exception:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown SMS error",
     };
   }
 }
@@ -270,6 +316,7 @@ export const contactRouter = router({
 
         // Guardar en base de datos con transacción
         let emailResult = { success: false, error: "Email not sent" };
+        let smsResult = { success: false, error: "SMS not sent" };
 
         const submission = await withTransaction(async (tx) => {
           // Crear submission
@@ -293,10 +340,13 @@ export const contactRouter = router({
 
           submissionId = newSubmission.id;
 
-          // Enviar email
+          // Enviar email a múltiples direcciones
           emailResult = await sendContactNotification(input, submissionId);
 
-          // Actualizar estado según resultado del email
+          // Enviar SMS al teléfono del negocio
+          smsResult = await sendSMSNotification(input, submissionId);
+
+          // Actualizar estado según resultado del email (es lo más importante)
           const status = emailResult.success ? ContactStatus.SENT : ContactStatus.FAILED;
           await updateContactSubmissionStatus(submissionId, status);
 
@@ -306,18 +356,26 @@ export const contactRouter = router({
         const duration = Date.now() - startTime;
         console.info(`[Contact] Submission #${submissionId} processed in ${duration}ms`);
 
-        // Log de alerta si el email falló
+        // Log de alertas
         if (!emailResult.success) {
           console.warn(`[Contact] Email failed for submission #${submissionId}: ${emailResult.error}`);
+        }
+        if (!smsResult.success) {
+          console.warn(`[Contact] SMS failed for submission #${submissionId}: ${smsResult.error}`);
         }
 
         return {
           success: true,
           message: emailResult.success
-            ? "Thank you! Your message has been sent successfully."
-            : "Your message was saved, but we're having trouble with email notifications.",
+            ? "Thank you! Your message has been sent successfully to our team."
+            : "Your message was saved, but we're having trouble with notifications. We'll still review it.",
           submissionId,
           emailSent: emailResult.success,
+          smsSent: smsResult.success,
+          notifications: {
+            email: emailResult.success,
+            sms: smsResult.success,
+          },
         };
       } catch (error) {
         console.error("[Contact] Submission error:", error);
