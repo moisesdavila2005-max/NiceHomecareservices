@@ -1,0 +1,27 @@
+{
+  "name": "caregiver-agency-website",
+  "version": "1.0.0",
+  "description": "Modern website for a caregiver agency",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@primer/octicons-react": "^19.8.0",
+    "@primer/react": "^36.32.0",
+    "@primer/primitives": "^8.0.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "styled-components": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.3.0"
+  }
+}

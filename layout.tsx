@@ -1,17 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import './app/app/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'NiceHome Care Services | Professional In-Home Caregiver Agency',
   description: 'Compassionate, professional caregivers providing personalized in-home care services. Vetted professionals, 24/7 support, and trusted by families.',
-  openGraph: {
-    title: 'NiceHome Care Services',
-    description: 'Professional in-home caregiving with compassion and expertise',
-    type: 'website',
-  },
 }
 
 export default function RootLayout({
@@ -21,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className={inter.className}  style={{ margin: 0, padding: 0 }}>
         {children}
       </body>
     </html>
