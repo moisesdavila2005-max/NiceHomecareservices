@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from 'next/script'; // 1. Movido arriba con los demás imports
 import "./globals.css";
-import Script from 'next/script';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,27 +34,29 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        {/* Google Tag Manager (noscript) - Respaldo si JavaScript está desactivado */}
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MT4PSJZR"
-            height="0" 
-            width="0" 
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
+      <body className="min-h-full flex flex-col bg-white text-slate-900">
+        {/* Aquí puedes importar e incluir tu <Navbar /> en el futuro */}
+        
+        {/* 2. <main> asegura que el contenido ocupe el espacio disponible y empuje el Footer abajo */}
+        <main className="flex-grow">
+          {children}
+        </main>
 
-        {children}
+        {/* Aquí puedes importar e incluir tu <Footer /> en el futuro */}
 
-        {/* Google Tag Manager - Script Principal de seguimiento */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        {/* Google Analytics 4 (GA4) - REEMPLAZAR EL ID CUANDO LO TENGAS */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=GTM-GT4PSJZR" 
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-MT4PSJZR');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'GTM-MT4PSJZR, {
+              page_path: window.location.pathname,
+            });
           `}
         </Script>
       </body>
