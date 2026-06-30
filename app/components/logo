@@ -1,12 +1,6 @@
-Optimizar un código que imprime HTML desde Python implica mejorar la **legibilidad**, la **mantenibilidad** y la **estructura** tanto del lenguaje de programación como del marcado (HTML/CSS).
 
-Aquí tienes el código optimizado utilizando una cadena multilínea formateada, variables CSS para facilitar cambios de diseño y una estructura HTML más limpia y profesional:
-
-```python
-# Definimos el contenido HTML en una variable para separar la lógica del contenido
-nice_home_care_html = """
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" | "en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
