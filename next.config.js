@@ -1,80 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Redirecciones (equivalente a RewriteRule)
-  async redirects() {
-    return [
-      // Redirigir www a no-www (HTTP 301)
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.nicehomecareservices.com',
-          },
-        ],
-        destination: 'https://nicehomecareservices.com/:path*',
-        permanent: true,
-      },
-    ]
-  },
-
-  // Cabeceras para caché (equivalente a ExpiresByType)
+  reactStrictMode: true,
+  // Configuración de seguridad y tiempos
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
           },
         ],
       },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/favicon.ico',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/images/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ]
+    ];
   },
+  // Definir duración máxima para API routes (en segundos)
+  // Nota: maxDuration solo aplica en Vercel en el archivo vercel.json,
+  // aquí lo dejamos como referencia, pero lo moveremos a vercel.json
+  // para que funcione realmente.
+};
 
-  // Compresión: Vercel ya la aplica, pero podemos forzarla con:
-  compress: true,
-
-  // Otros ajustes útiles
-  reactStrictMode: true,
-  poweredByHeader: false, // Oculta "X-Powered-By: Next.js"
-}
-
-module.exports = nextConfig
+export default nextConfig;
