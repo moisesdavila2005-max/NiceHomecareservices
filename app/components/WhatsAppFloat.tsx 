@@ -1,8 +1,8 @@
 "use client"
 
 export default function WhatsAppFloat() {
-  const phone = "50581543062"
-  const message = "Hi Nice Home Care Services! I saw your website and need info about home care."
+  const phone = "6693314949"
+  const message = "Hi Nice Home Care Services! I saw your website and need info about your services."
   const link = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
 
   return (
