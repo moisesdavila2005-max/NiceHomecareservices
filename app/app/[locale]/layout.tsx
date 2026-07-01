@@ -1,47 +1,46 @@
-// app/[locale]/layout.tsx (actualizado)
-import { CustomerSupport } from '@/components/customer-support'
-import { Toaster } from 'react-hot-toast'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { notFound } from 'next/navigation';
+import { getMessages, getTranslations } from 'next-intl/server';
+import { Providers } from '@/components/providers';
+import { Locale, locales } from '@/i18n'; // Ajusta la ruta según tu configuración
+import { Inter } from 'next/font/google';
+import './globals.css';
 
-const queryClient = new QueryClient()
+const inter = Inter({ subsets: ['latin'] });
+
+// Genera metadatos estáticos (opcional pero recomendado)
+export async function generateMetadata({ params: { locale } }: { params: { locale: Locale } }) {
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export default async function RootLayout({
   children,
-  params: { locale }
+  params: { locale },
 }: {
-  children: React.ReactNode
-  params: { locale: Locale }
+  children: React.ReactNode;
+  params: { locale: Locale };
 }) {
-  // ... código existente ...
+  // Validar que el locale sea soportado
+  if (!locales.includes(locale)) notFound();
+
+  // Obtener mensajes de traducción
+  const messages = await getMessages({ locale });
+
+  // Determinar dirección (RTL/LTR) según el locale
+  const direction = locale === 'ar' || locale === 'he' ? 'rtl' : 'ltr';
 
   return (
-    <html lang={locale} dir={direction}>
+    <html lang={locale} dir={direction} className={inter.className}>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <NextIntlClientProvider>
-              <GSAPProvider>
-                <KeyboardScrollProvider>
-                  <SiteHeader />
-                  <main>{children}</main>
-                  <CustomerSupport />
-                  <Toaster
-                    position="top-right"
-                    toastOptions={{
-                      duration: 5000,
-                      style: {
-                        background: 'var(--background)',
-                        color: 'var(--foreground)',
-                        border: '1px solid var(--border)'
-                      }
-                    }}
-                  />
-                </KeyboardScrollProvider>
-              </GSAPProvider>
-            </NextIntlClientProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
+        {/* Todos los providers se montan en cliente */}
+        <Providers locale={locale} messages={messages} direction={direction}>
+          <SiteHeader /> {/* Si SiteHeader usa hooks, debe ir dentro de Providers, o también ser cliente */}
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
