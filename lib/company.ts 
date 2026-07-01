@@ -1,0 +1,30 @@
+export const COMPANY = {
+  name: 'Nice Home Care Services LLC',
+  shortName: 'Nice Home Care',
+  slogan: {
+    es: 'Cuidado con amor, respeto y confianza.',
+    en: 'Compassion You Can Trust, Care You Deserve.'
+  },
+  description: {
+    es: 'Ofrecemos servicios de cuidado no médico para adultos mayores en la comodidad de su hogar.',
+    en: 'We provide compassionate, reliable and professional non-medical care that helps you heal, recover and live safely at home.'
+  },
+  phone: '(669) 331-4949',
+  email: 'nicehomecareservicesllc@gmail.com',
+  emailAlt: 'info@nicehomecareservices.com',
+  website: 'www.nicehomecareservices.com',
+  address: {
+    street: 'San José, CA 95116',
+    city: 'San José',
+    state: 'CA',
+    zip: '95116',
+    full: 'San José, CA 95116'
+  },
+  serviceArea: {
+    es: 'San José y áreas cercanas / Santa Clara County',
+    en: 'San José & Santa Clara County'
+  },
+  social: {
+    // Puedes añadir redes sociales si las tienes
+  }
+}
