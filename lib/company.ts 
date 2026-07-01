@@ -1,3 +1,4 @@
+// lib/company.ts
 export const COMPANY = {
   name: 'Nice Home Care Services LLC',
   shortName: 'Nice Home Care',
@@ -23,8 +24,90 @@ export const COMPANY = {
   serviceArea: {
     es: 'San José y áreas cercanas / Santa Clara County',
     en: 'San José & Santa Clara County'
-  },
-  social: {
-    // Puedes añadir redes sociales si las tienes
   }
 }
+
+// Servicios con descripciones extendidas (basadas en los flyers)
+export const SERVICE_TYPES = {
+  companionship: {
+    es: 'Compañía y conversación',
+    en: 'Companionship',
+    desc_es: 'Acompañamiento y supervisión para mejorar la calidad de vida.',
+    desc_en: 'Companionship and supervision to improve quality of life.'
+  },
+  'meal-preparation': {
+    es: 'Preparación de comidas',
+    en: 'Meal Preparation',
+    desc_es: 'Comidas caseras y balanceadas adaptadas a necesidades dietéticas.',
+    desc_en: 'Homemade and balanced meals tailored to dietary needs.'
+  },
+  'errands-shopping': {
+    es: 'Compras y mandados',
+    en: 'Errands & Shopping',
+    desc_es: 'Compras de supermercado, farmacia y otras necesidades.',
+    desc_en: 'Grocery shopping, pharmacy and other errands.'
+  },
+  transportation: {
+    es: 'Transporte a citas',
+    en: 'Transportation',
+    desc_es: 'Acompañamiento seguro a citas médicas y otras actividades.',
+    desc_en: 'Safe accompaniment to medical appointments and other activities.'
+  },
+  'medication-reminders': {
+    es: 'Recordatorios de medicamentos',
+    en: 'Medication Reminders',
+    desc_es: 'Recordatorios amables para tomar su medicación (no administramos medicamentos).',
+    desc_en: 'Gentle reminders to take medication (we do not administer).'
+  },
+  'light-housekeeping': {
+    es: 'Ayuda ligera en el hogar',
+    en: 'Light Housekeeping',
+    desc_es: 'Organización, limpieza ligera y cambio de ropa de cama.',
+    desc_en: 'Organization, light cleaning and bed linen changes.'
+  },
+  'personal-care': {
+    es: 'Apoyo con actividades diarias',
+    en: 'Personal Care',
+    desc_es: 'Ayuda con baño, vestimenta, movilidad y más.',
+    desc_en: 'Assistance with bathing, dressing, mobility and more.'
+  }
+}
+
+// Valores / Compromiso (del flyer)
+export const VALUES = [
+  {
+    icon: 'dignity',
+    title_es: 'Trato digno y respetuoso',
+    title_en: 'Dignified and respectful treatment',
+    desc_es: 'Cuidamos con respeto y valoramos la individualidad de cada persona.',
+    desc_en: 'We care with respect and value each person\'s individuality.'
+  },
+  {
+    icon: 'safety',
+    title_es: 'Ambiente seguro y confiable',
+    title_en: 'Safe and reliable environment',
+    desc_es: 'Garantizamos un entorno seguro para nuestros clientes y sus familias.',
+    desc_en: 'We ensure a safe environment for our clients and their families.'
+  },
+  {
+    icon: 'personalized',
+    title_es: 'Atención personalizada',
+    title_en: 'Personalized attention',
+    desc_es: 'Creamos planes de cuidado adaptados a las necesidades específicas.',
+    desc_en: 'We create care plans tailored to specific needs.'
+  },
+  {
+    icon: 'communication',
+    title_es: 'Comunicación constante con la familia',
+    title_en: 'Constant communication with family',
+    desc_es: 'Mantenemos informadas a las familias sobre el bienestar de sus seres queridos.',
+    desc_en: 'We keep families informed about their loved ones\' well-being.'
+  },
+  {
+    icon: 'love',
+    title_es: 'Cuidado con amor y paciencia',
+    title_en: 'Care with love and patience',
+    desc_es: 'Cada interacción está guiada por la empatía y la compasión.',
+    desc_en: 'Every interaction is guided by empathy and compassion.'
+  }
+]
