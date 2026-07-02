@@ -1,7 +1,7 @@
 // lib/company.ts
 export const COMPANY = {
   name: 'Nice Home Care Services LLC',
-  shortName: 'Nice Home Care',
+  shortName: 'Nice Home Care Services',
   slogan: {
     es: 'Cuidado con amor, respeto y confianza.',
     en: 'Compassion You Can Trust, Care You Deserve.'
