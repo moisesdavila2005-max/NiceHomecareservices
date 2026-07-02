@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google"; import { SpeedInsights } from "@vercel/speed-insights/next"
-import Script from 'next/script'; // 1. Movido arriba con los demás imports
+import { Script } from 'next/script';
+import { "./globals.css" }
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nice Home Care Services | Cuidado en el Hogar en California",
+  title: "Nice Home Care Services | Cuidado en el Hogar en San Jose California",
   description: "Servicios profesionales de cuidado en el hogar en Santa Clara, San Jose, Cupertino, Milpitas y Sunnyvale. 24/7, atención personalizada para adultos mayores. Licencia pendiente.",
   keywords: ["cuidado en el hogar", "home care", "Santa Clara", "San Jose", "Cupertino", "cuidados para adultos mayores", "California"],
   openGraph: {
