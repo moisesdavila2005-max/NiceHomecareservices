@@ -1,4 +1,4 @@
-/* Nice Home Care Services - Estilos Personalizados */
+//Nice Home Care Services - Estilos Personalizados 
 
 :root {
     --primary: #0a5c3e;
@@ -15,23 +15,25 @@
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary-dark) 100%);
 }
 
-/* Mejoras de accesibilidad */
+//Mejoras de accesibilidad 
+
 @media (prefers-reduced-motion: reduce) {
-    * {
+     {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
 
-/* Mejoras para móvil */
+// Mejoras para móvil 
+
 @media (max-width: 768px) {
     .container {
         padding-left: 1rem;
         padding-right: 1rem;
     }
     
-    h1 {
+    <h1> {
         font-size: 2rem !important;
     }
     
@@ -40,7 +42,8 @@
     }
 }
 
-/* Estilos para el botón de WhatsApp */
+// Estilos para el botón de WhatsApp 
+
 .whatsapp-float {
     position: fixed;
     bottom: 20px;
@@ -64,7 +67,8 @@
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
 }
 
-/* Estilos para las tarjetas de servicios */
+// Estilos para las tarjetas de servicios */
+
 .service-card {
     transition: all 0.3s ease;
     border-radius: 1rem;
