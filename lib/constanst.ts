@@ -1,4 +1,4 @@
-import { COMPANY } from './company'
+import { COMPANY } from './lib/company'
 
 // Servicios mapeados exactamente de los flyers
 export const SERVICE_TYPES = {
@@ -35,15 +35,15 @@ export const SERVICE_TYPES = {
 // Opciones para requisitos especiales (adaptadas)
 export const SPECIAL_REQUIREMENTS_OPTIONS = [
   { value: 'wheelchair-access', es: 'Accesibilidad para silla de ruedas', en: 'Wheelchair accessibility' },
-  { value: 'specialized-nurse', es: 'Enfermera especializada', en: 'Specialized nurse' },
-  { value: 'medical-equipment', es: 'Equipo médico especializado', en: 'Specialized medical equipment' },
+  { value: 'personal-care', es: 'Cuidado-Personal', en: 'Personal care' },
+  { value: 'medical-equipment', es: 'Asistencia no medica', en: 'Non medical assistance' },
   { value: 'sign-interpretation', es: 'Interpretación de señas', en: 'Sign language interpretation' },
-  { value: 'transport-included', es: 'Transporte incluido', en: 'Transportation included' }
+  { value: 'transport-included', es: 'Transporte disponible', en: 'Transportation available }
 ]
 
 // Pasos del formulario (títulos)
 export const FORM_STEPS = [
-  { fields: ['fullName', 'email', 'phone'], title: { es: 'Datos personales', en: 'Personal Info' } },
+  { fields: ['Name', 'email', 'phone'], title: { es: 'Datos personales', en: 'Personal Info' } },
   { fields: ['serviceType', 'preferredDate', 'preferredTime', 'duration'], title: { es: 'Servicio', en: 'Service' } },
   { fields: ['address.street', 'address.city', 'address.zipCode'], title: { es: 'Ubicación', en: 'Location' } },
   { fields: ['description'], title: { es: 'Necesidades', en: 'Needs' } },
