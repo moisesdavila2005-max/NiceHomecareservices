@@ -15,9 +15,7 @@ import {
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
-// ============================================================================
 // TYPES
-// ============================================================================
 
 type DbInstance = MySql2Database<Record<string, unknown>>;
 
@@ -41,9 +39,7 @@ interface ContactFilterOptions {
   search?: string;
 }
 
-// ============================================================================
 // CONFIGURACIÓN
-// ============================================================================
 
 const DEFAULT_PAGINATION = {
   page: 1,
@@ -58,17 +54,16 @@ const DB_CONFIG: DbConfig = {
   retryDelay: 1000,
 };
 
-// ============================================================================
+
 // SINGLETON DB INSTANCE
-// ============================================================================
 
 let _db: DbInstance | null = null;
 let _connectionAttempts = 0;
 let _lastConnectionError: Error | null = null;
 
-/**
- * Obtiene la instancia de la base de datos con lazy loading y reintentos
- */
+
+ // Obtiene la instancia de la base de datos con lazy loading y reintentos
+
 export async function getDb(): Promise<DbInstance | null> {
   if (_db) return _db;
 
@@ -83,6 +78,7 @@ export async function getDb(): Promise<DbInstance | null> {
     _lastConnectionError = null;
     
     // Verificar conexión con un query simple
+
     await _db.execute(sql`SELECT 1`);
     console.info("[Database] Connected successfully");
     
@@ -102,17 +98,17 @@ export async function getDb(): Promise<DbInstance | null> {
   }
 }
 
-/**
- * Verifica si la base de datos está disponible
- */
+
+ // Verifica si la base de datos está disponible
+ 
 export async function isDbAvailable(): Promise<boolean> {
   const db = await getDb();
   return db !== null;
 }
 
-/**
- * Reinicia la conexión a la base de datos
- */
+
+ // Reinicia la conexión a la base de datos
+ 
 export async function resetDbConnection(): Promise<void> {
   _db = null;
   _connectionAttempts = 0;
@@ -126,13 +122,11 @@ export function getLastConnectionError(): Error | null {
   return _lastConnectionError;
 }
 
-// ============================================================================
 // HEALTH CHECK
-// ============================================================================
 
-/**
- * Verifica el estado de la base de datos
- */
+
+// Verifica el estado de la base //de //datos
+
 export async function healthCheck(): Promise<{
   healthy: boolean;
   latency?: number;
@@ -158,13 +152,13 @@ export async function healthCheck(): Promise<{
   }
 }
 
-// ============================================================================
-// USER OPERATIONS
-// ============================================================================
 
-/**
- * Crea o actualiza un usuario
- */
+// USER OPERATIONS
+
+
+
+ // Crea o actualiza un usuario
+ 
 export async function upsertUser(
   user: InsertUser,
   options?: { skipAdminCheck?: boolean }
@@ -181,6 +175,7 @@ export async function upsertUser(
 
   try {
     // Construir valores base
+
     const values: InsertUser = {
       openId: user.openId,
       name: user.name ?? null,
@@ -197,12 +192,14 @@ export async function upsertUser(
     };
 
     // Asignar admin automáticamente si es el owner
+
     if (!options?.skipAdminCheck && user.openId === ENV.ownerOpenId) {
       values.role = UserRole.ADMIN;
     }
 
-    // Preparar campos para actualización
-    const updateSet: Partial<InsertUser> = {
+    // Preparar campos para ////actualización
+   
+ const updateSet: Partial<InsertUser> = {
       name: values.name,
       email: values.email,
       loginMethod: values.loginMethod,
@@ -217,8 +214,9 @@ export async function upsertUser(
       updatedAt: new Date(),
     };
 
-    // Ejecutar upsert
-    const result = await db
+   //  Ejecutar upsert
+  
+  const result = await db
       .insert(users)
       .values(values)
       .onDuplicateKeyUpdate({
@@ -226,7 +224,8 @@ export async function upsertUser(
       });
 
     // Recuperar el usuario actualizado
-    const userResult = await db
+   
+ const userResult = await db
       .select()
       .from(users)
       .where(eq(users.openId, user.openId))
@@ -241,9 +240,8 @@ export async function upsertUser(
   }
 }
 
-/**
- * Obtiene un usuario por su openId
- */
+// Obtiene un usuario por su openId
+ 
 export async function getUserByOpenId(openId: string): Promise<User | null> {
   if (!openId) {
     throw new Error("[Database] openId is required");
@@ -269,9 +267,8 @@ export async function getUserByOpenId(openId: string): Promise<User | null> {
   }
 }
 
-/**
- * Obtiene un usuario por su email
- */
+// Obtiene un usuario por su email
+ 
 export async function getUserByEmail(email: string): Promise<User | null> {
   if (!email) {
     throw new Error("[Database] email is required");
@@ -297,9 +294,8 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   }
 }
 
-/**
- * Obtiene usuarios con paginación y filtros
- */
+//Obtiene usuarios con paginación y filtros
+ 
 export async function getUsers(
   options: PaginationOptions = {},
   filter?: { role?: UserRole; isActive?: boolean }
@@ -313,6 +309,7 @@ export async function getUsers(
   }
 
   try {
+
     // Construir condiciones de filtro
     const conditions: SQL[] = [];
     if (filter?.role) {
@@ -325,7 +322,8 @@ export async function getUsers(
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     // Obtener total
-    const totalResult = await db
+   
+ const totalResult = await db
       .select({ count: sql<number>`count(*)` })
       .from(users)
       .where(whereClause);
@@ -333,7 +331,8 @@ export async function getUsers(
     const total = Number(totalResult[0]?.count || 0);
 
     // Obtener datos
-    const orderColumn = users[sortBy as keyof typeof users] || users.createdAt;
+   
+ const orderColumn = users[sortBy as keyof typeof users] || users.createdAt;
     const orderFn = sortOrder === "asc" ? sql`ASC` : sql`DESC`;
 
     const results = await db
@@ -351,9 +350,8 @@ export async function getUsers(
   }
 }
 
-/**
- * Actualiza un usuario
- */
+// Actualiza un usuario
+ 
 export async function updateUser(
   openId: string,
   data: UpdateUser
@@ -369,8 +367,10 @@ export async function updateUser(
   }
 
   try {
+
     // Remover campos que no se deben actualizar
-    const { id, openId: _openId, createdAt, ...updateData } = data as any;
+   
+ const { id, openId: _openId, createdAt, ...updateData } = data as any;
 
     await db
       .update(users)
@@ -387,9 +387,8 @@ export async function updateUser(
   }
 }
 
-/**
- * Elimina un usuario (soft delete)
- */
+// Elimina un usuario (soft delete)
+ 
 export async function deleteUser(openId: string): Promise<boolean> {
   if (!openId) {
     throw new Error("[Database] openId is required");
@@ -418,9 +417,8 @@ export async function deleteUser(openId: string): Promise<boolean> {
   }
 }
 
-/**
- * Actualiza el último inicio de sesión de un usuario
- */
+// Actualiza el último inicio de sesión de un usuario
+ 
 export async function updateLastSignIn(openId: string): Promise<void> {
   if (!openId) {
     throw new Error("[Database] openId is required");
@@ -446,13 +444,10 @@ export async function updateLastSignIn(openId: string): Promise<void> {
   }
 }
 
-// ============================================================================
-// CONTACT SUBMISSIONS OPERATIONS
-// ============================================================================
 
-/**
- * Crea una nueva submission de contacto
- */
+// CONTACT SUBMISSIONS OPERATIONS
+// Crea una nueva submission de contacto
+ 
 export async function createContactSubmission(
   data: InsertContactSubmission
 ): Promise<ContactSubmission | null> {
@@ -493,9 +488,8 @@ export async function createContactSubmission(
   }
 }
 
-/**
- * Actualiza el estado de una submission de contacto
- */
+// Actualiza el estado de una submission de contacto
+
 export async function updateContactSubmissionStatus(
   id: number,
   status: ContactStatus
@@ -532,9 +526,8 @@ export async function updateContactSubmissionStatus(
   }
 }
 
-/**
- * Obtiene submissions de contacto con filtros y paginación
- */
+// Obtiene submissions de contacto con filtros y paginación
+ 
 export async function getContactSubmissions(
   options: PaginationOptions = {},
   filter?: ContactFilterOptions
@@ -573,7 +566,8 @@ export async function getContactSubmissions(
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     // Obtener total
-    const totalResult = await db
+   
+ const totalResult = await db
       .select({ count: sql<number>`count(*)` })
       .from(contactSubmissions)
       .where(whereClause);
@@ -581,7 +575,8 @@ export async function getContactSubmissions(
     const total = Number(totalResult[0]?.count || 0);
 
     // Obtener datos
-    const orderColumn = contactSubmissions[sortBy as keyof typeof contactSubmissions] || contactSubmissions.createdAt;
+   
+ const orderColumn = contactSubmissions[sortBy as keyof typeof contactSubmissions] || contactSubmissions.createdAt;
     const orderFn = sortOrder === "asc" ? sql`ASC` : sql`DESC`;
 
     const results = await db
@@ -599,9 +594,8 @@ export async function getContactSubmissions(
   }
 }
 
-/**
- * Obtiene una submission de contacto por ID
- */
+// Obtiene una submission de contacto por ID
+ //
 export async function getContactSubmissionById(
   id: number
 ): Promise<ContactSubmission | null> {
@@ -629,9 +623,8 @@ export async function getContactSubmissionById(
   }
 }
 
-/**
- * Actualiza una submission de contacto
- */
+// Actualiza una submission de contacto
+ //
 export async function updateContactSubmission(
   id: number,
   data: UpdateContactSubmission
@@ -663,9 +656,8 @@ export async function updateContactSubmission(
   }
 }
 
-/**
- * Elimina una submission de contacto (hard delete)
- */
+//Elimina una submission de contacto (hard delete)
+ //
 export async function deleteContactSubmission(id: number): Promise<boolean> {
   if (!id) {
     throw new Error("[Database] Submission ID is required");
@@ -689,13 +681,12 @@ export async function deleteContactSubmission(id: number): Promise<boolean> {
   }
 }
 
-// ============================================================================
+// 
 // TRANSACTIONS
-// ============================================================================
+// 
 
-/**
- * Ejecuta una transacción con múltiples operaciones
- */
+// Ejecuta una transacción con múltiples operaciones
+//
 export async function withTransaction<T>(
   callback: (db: DbInstance) => Promise<T>
 ): Promise<T> {
@@ -714,10 +705,9 @@ export async function withTransaction<T>(
   }
 }
 
-// ============================================================================
+// 
 // EXPORT
-// ============================================================================
-
+// 
 export default {
   getDb,
   isDbAvailable,
@@ -725,7 +715,8 @@ export default {
   healthCheck,
   
   // Users
-  upsertUser,
+ 
+ upsertUser,
   getUserByOpenId,
   getUserByEmail,
   getUsers,
@@ -734,7 +725,8 @@ export default {
   updateLastSignIn,
   
   // Contact submissions
-  createContactSubmission,
+ 
+ createContactSubmission,
   updateContactSubmissionStatus,
   getContactSubmissions,
   getContactSubmissionById,
@@ -742,5 +734,6 @@ export default {
   deleteContactSubmission,
   
   // Transactions
-  withTransaction,
+  
+withTransaction,
 };
