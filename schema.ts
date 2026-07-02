@@ -37,7 +37,6 @@ export const ContactStatus = {
 export type ContactStatus = (typeof ContactStatus)[keyof typeof ContactStatus];
 
 export const LoginMethod = {
-  MANUS: "manus",
   EMAIL: "email",
   GOOGLE: "google",
   GITHUB: "github",
@@ -63,7 +62,7 @@ export const users = mysqlTable(
      */
     id: int("id").autoincrement().primaryKey(),
 
-    /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
+ //   /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
     openId: varchar("openId", { length: 64 }).notNull().unique(),
 
     /** User's display name */
@@ -129,7 +128,7 @@ export const contactSubmissions = mysqlTable(
   {
     id: int("id").autoincrement().primaryKey(),
 
-    /** Sender's full name */
+    /** Sender's name */
     name: varchar("name", { length: 255 }).notNull(),
 
     /** Sender's email address */
@@ -155,16 +154,16 @@ export const contactSubmissions = mysqlTable(
     /** Whether the sender wants a reply */
     wantsReply: boolean("wantsReply").default(true),
 
-    /** Internal notes for team members */
+    // Internal notes for team members //
     notes: text("notes"),
 
-    /** IP address of the sender */
+    // IP address of the sender //
     ipAddress: varchar("ipAddress", { length: 45 }),
 
-    /** User agent of the sender */
+    // User agent of the sender //
     userAgent: text("userAgent"),
 
-    /** Reference to the user if authenticated */
+    // Reference to the user if authenticated //
     userId: int("userId").references(() => users.id, {
       onDelete: "set null",
     }),
@@ -188,11 +187,9 @@ export const contactSubmissions = mysqlTable(
   }),
 );
 
-// ============================================================================
 // TYPES
-// ============================================================================
 
-// Users
+ Users
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type UpdateUser = Partial<Omit<InsertUser, "id" | "createdAt">>;
@@ -202,11 +199,10 @@ export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type InsertContactSubmission = typeof contactSubmissions.$inferInsert;
 export type UpdateContactSubmission = Partial<Omit<InsertContactSubmission, "id" | "createdAt">>;
 
-// ============================================================================
-// ZOD VALIDATION SCHEMAS
-// ============================================================================
 
-// User schemas
+// ZOD VALIDATION SCHEMAS
+
+User schemas
 export const insertUserSchema = createInsertSchema(users, {
   email: (schema) => schema.email.email("Invalid email format"),
   name: (schema) => schema.name.min(2, "Name must be at least 2 characters"),
@@ -221,7 +217,7 @@ export const selectUserSchema = createSelectSchema(users);
 
 export const updateUserSchema = insertUserSchema.partial();
 
-// Contact submission schemas
+ Contact submission schemas
 export const insertContactSubmissionSchema = createInsertSchema(
   contactSubmissions,
   {
@@ -248,9 +244,9 @@ export const selectContactSubmissionSchema = createSelectSchema(contactSubmissio
 
 export const updateContactSubmissionSchema = insertContactSubmissionSchema.partial();
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
+ 
+ //UTILITY FUNCTIONS
+ 
 
 /**
  * Check if a user has a specific role
