@@ -11,9 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-// ============================================================
+
 // 1. CONFIGURACIÓN DE IDIOMAS
-// ============================================================
+
 type Language = "es" | "en"
 
 const translations = {
@@ -53,10 +53,6 @@ const navLinks = (lang: Language) => [
   { label: translations[lang].nav.about, href: "/#nosotros" },
   { label: translations[lang].nav.contact, href: "/#contacto" },
 ]
-
-// ============================================================
-// 2. COMPONENTE PRINCIPAL
-// ============================================================
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [language, setLanguage] = useState<Language>("es")
@@ -165,9 +161,9 @@ export function SiteHeader() {
     )
   }
 
-  // ============================================================
+  
   // 3. RENDER
-  // ============================================================
+  
   return (
     <header
       ref={headerRef}
@@ -191,7 +187,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        {/* ---- Navegación Desktop ---- */}
+        { Navegación Desktop }
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
           {links.map((link) => (
             <Link
@@ -204,7 +200,6 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* ---- Acciones Desktop ---- */}
         <div className="hidden items-center gap-3 md:flex">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
