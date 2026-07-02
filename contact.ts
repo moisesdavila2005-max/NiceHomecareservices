@@ -14,11 +14,12 @@ import { UserRole, ContactStatus } from "../../drizzle/schema";
 import { ENV } from "../_core/env";
 import { emailQueue } from "../_core/queue";
 
-// ============================================================================
+// 
 // CONSTANTS & CONFIGURACIÓN
-// ============================================================================
+// 
 
 // Inicializar Resend solo si la API key está configurada
+
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
@@ -30,11 +31,12 @@ const CONTACT_EMAILS = {
 
 const EMAIL_FROM = process.env.EMAIL_FROM || "Nice Home Care Services <onboarding@resend.dev>";
 
-// ============================================================================
+// 
 // VALIDATION SCHEMAS
-// ============================================================================
+// 
 
 // Schema base con validaciones mejoradas
+
 const contactFormSchema = z.object({
   name: z
     .string()
@@ -86,13 +88,11 @@ const listFilterSchema = z.object({
   sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
 });
 
-// ============================================================================
+// 
 // HELPERS
-// ============================================================================
 
-/**
- * Escapa HTML para prevenir XSS
- */
+// Escapa HTML para prevenir XSS
+ 
 function escapeHtml(text: string): string {
   const map: Record<string, string> = {
     "&": "&amp;",
@@ -104,9 +104,8 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
-/**
- * Genera el HTML del email de notificación
- */
+// Genera el HTML del email de notificación
+//
 function generateContactEmail(input: ContactFormInput, submissionId: number): string {
   const date = new Date().toLocaleString("es-ES", {
     dateStyle: "long",
@@ -174,9 +173,8 @@ function generateContactEmail(input: ContactFormInput, submissionId: number): st
   `;
 }
 
-/**
- * Envía el email de notificación
- */
+// Envía el email de notificación
+ //
 async function sendContactNotification(
   input: ContactFormInput,
   submissionId: number
@@ -199,7 +197,7 @@ Phone: ${input.phone || 'Not provided'}
 Message:
 ${input.message}
 
----
+
 Submission ID: #${submissionId}
     `;
 
@@ -228,15 +226,15 @@ Submission ID: #${submissionId}
   }
 }
 
-// ============================================================================
+// 
 // ROUTER
-// ============================================================================
+// 
 
 export const contactRouter = router({
-  /**
-   * Envía un mensaje de contacto
-   * Público - No requiere autenticación
-   */
+  //
+   // Envía un mensaje de contacto
+   // Público - No requiere autenticación
+ //
   submit: publicProcedure
     .input(contactFormSchema)
     .mutation(async ({ input, ctx }) => {
@@ -245,9 +243,11 @@ export const contactRouter = router({
 
       try {
         // Validar spam básico
+
         if (input.message.includes("http") || input.message.includes("www")) {
           console.warn("[Contact] Spam detected - URL in message", { email: input.email });
-          // Si tiene URL, lo marcamos como spam directamente
+        
+ // Si tiene URL, lo marcamos como spam directamente
           const spamSubmission = await createContactSubmission({
             name: input.name,
             email: input.email,
@@ -259,7 +259,7 @@ export const contactRouter = router({
             userAgent: ctx.req?.headers?.["user-agent"],
           });
 
-          // No notificamos sobre spam
+  // No notificamos sobre spam
           return {
             success: true,
             message: "Thank you for your message. We'll get back to you soon!",
@@ -269,10 +269,13 @@ export const contactRouter = router({
         }
 
         // Guardar en base de datos con transacción
+
         let emailResult = { success: false, error: "Email not sent" };
 
         const submission = await withTransaction(async (tx) => {
-          // Crear submission
+         
+ // Crear submission
+
           const newSubmission = await createContactSubmission({
             name: input.name,
             email: input.email,
@@ -294,7 +297,8 @@ export const contactRouter = router({
           submissionId = newSubmission.id;
 
           // Enviar email
-          emailResult = await sendContactNotification(input, submissionId);
+          
+emailResult = await sendContactNotification(input, submissionId);
 
           // Actualizar estado según resultado del email
           const status = emailResult.success ? ContactStatus.SENT : ContactStatus.FAILED;
@@ -307,7 +311,8 @@ export const contactRouter = router({
         console.info(`[Contact] Submission #${submissionId} processed in ${duration}ms`);
 
         // Log de alerta si el email falló
-        if (!emailResult.success) {
+       
+ if (!emailResult.success) {
           console.warn(`[Contact] Email failed for submission #${submissionId}: ${emailResult.error}`);
         }
 
@@ -323,12 +328,14 @@ export const contactRouter = router({
         console.error("[Contact] Submission error:", error);
 
         // Si el error es un TRPCError, lo propagamos
-        if (error instanceof TRPCError) {
+       
+ if (error instanceof TRPCError) {
           throw error;
         }
 
         // Si la submission se creó pero falló el email, actualizar estado
-        if (submissionId) {
+       
+ if (submissionId) {
           try {
             await updateContactSubmissionStatus(submissionId, ContactStatus.FAILED);
           } catch (updateError) {
@@ -343,10 +350,9 @@ export const contactRouter = router({
       }
     }),
 
-  /**
-   * Lista todas las submissions de contacto
-   * Protegido - Solo usuarios autenticados
-   */
+  // Lista todas las submissions de contacto
+  // Protegido - Solo usuarios autenticados
+   
   list: protectedProcedure
     .input(listFilterSchema)
     .query(async ({ input, ctx }) => {
@@ -393,15 +399,15 @@ export const contactRouter = router({
       }
     }),
 
-  /**
-   * Obtiene una submission específica
-   * Protegido - Solo usuarios autenticados
-   */
+  // Obtiene una submission específica
+  // Protegido - Solo usuarios autenticados
+   
   getById: protectedProcedure
     .input(z.object({ id: z.number().int().positive() }))
     .query(async ({ input, ctx }) => {
       // Verificar permisos
-      if (ctx.user?.role !== UserRole.ADMIN && ctx.user?.role !== UserRole.SUPER_ADMIN) {
+    
+  if (ctx.user?.role !== UserRole.ADMIN && ctx.user?.role !== UserRole.SUPER_ADMIN) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "You don't have permission to view this submission",
@@ -429,10 +435,9 @@ export const contactRouter = router({
       }
     }),
 
-  /**
-   * Actualiza el estado de una submission
-   * Protegido - Solo administradores
-   */
+  // Actualiza el estado de una submission
+   // Protegido - Solo administradores
+   
   updateStatus: protectedProcedure
     .input(updateStatusSchema)
     .mutation(async ({ input, ctx }) => {
@@ -448,7 +453,8 @@ export const contactRouter = router({
         const { id, status } = input;
 
         // Verificar que la submission existe
-        const existing = await getContactSubmissionById(id);
+       
+ const existing = await getContactSubmissionById(id);
         if (!existing) {
           throw new TRPCError({
             code: "NOT_FOUND",
@@ -473,9 +479,8 @@ export const contactRouter = router({
       }
     }),
 
-  /**
-   * Elimina una submission
-   * Protegido - Solo super administradores
+  // Elimina una submission
+  //Protegido - Solo super administradores
    */
   delete: protectedProcedure
     .input(z.object({ id: z.number().int().positive() }))
@@ -512,10 +517,9 @@ export const contactRouter = router({
       }
     }),
 
-  /**
-   * Estadísticas de submissions
-   * Protegido - Solo administradores
-   */
+  // Estadísticas de submissions
+   // Protegido - Solo administradores
+   
   stats: protectedProcedure
     .query(async ({ ctx }) => {
       if (ctx.user?.role !== UserRole.ADMIN && ctx.user?.role !== UserRole.SUPER_ADMIN) {
@@ -526,8 +530,10 @@ export const contactRouter = router({
       }
 
       try {
-        // Obtener todas las submissions para calcular estadísticas
-        const { submissions } = await getContactSubmissions({ limit: 1000 });
+       
+ // Obtener todas las submissions para calcular estadísticas
+       
+ const { submissions } = await getContactSubmissions({ limit: 1000 });
 
         const stats = {
           total: submissions.length,
@@ -549,7 +555,8 @@ export const contactRouter = router({
         };
 
         // Contar por estado
-        submissions.forEach(s => {
+       
+ submissions.forEach(s => {
           if (s.status in stats.byStatus) {
             stats.byStatus[s.status as keyof typeof stats.byStatus]++;
           }
@@ -566,8 +573,8 @@ export const contactRouter = router({
     }),
 });
 
-// ============================================================================
+// 
 // EXPORT TYPES
-// ============================================================================
+// 
 
 export type ContactRouter = typeof contactRouter;
