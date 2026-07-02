@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ========== CONFIGURACIÓN DE SHADCN (manualmente) ========== */
+//* ========== CONFIGURACIÓN DE SHADCN (manualmente) ========== */
 @layer base {
   :root {
     color-scheme: light;
