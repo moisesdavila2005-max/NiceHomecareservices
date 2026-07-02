@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google"; import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Script } from 'next/script';
-import { "./globals.css" }
+import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from 'next/script';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es" | "en"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-slate-900">
@@ -44,6 +44,8 @@ export default function RootLayout({
         </main>
 
         {/* Aquí puedes importar e incluir tu <Footer /> en el futuro */}
+        
+        <SpeedInsights />
 
         {/* Google Analytics 4 (GA4) - REEMPLAZAR EL ID CUANDO LO TENGAS */}
         <Script
@@ -55,7 +57,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'GTM-MT4PSJZR, {
+            gtag('config', 'GTM-MT4PSJZR', {
               page_path: window.location.pathname,
             });
           `}
