@@ -1,4 +1,5 @@
 // lib/company.ts
+
 export const COMPANY = {
   name: 'Nice Home Care Services LLC',
   shortName: 'Nice Home Care Services',
@@ -74,6 +75,7 @@ export const SERVICE_TYPES = {
 }
 
 // Valores / Compromiso (del flyer)
+
 export const VALUES = [
   {
     icon: 'dignity',
@@ -110,4 +112,3 @@ export const VALUES = [
     desc_es: 'Cada interacción está guiada por la empatía y la compasión.',
     desc_en: 'Every interaction is guided by empathy and compassion.'
   }
-]
