@@ -54,7 +54,7 @@ export function SiteHeader() {
           <span className="flex flex-col leading-tight">
             <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
               Nice Home Care Services 
-            </span>
+            
             <span className="text-xs text-muted-foreground">Cuidados en Casa</span>
           </span>
         </Link>
