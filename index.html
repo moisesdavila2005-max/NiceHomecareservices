@@ -795,8 +795,390 @@ Estamos para servirle.
         </div>
     </header>
 
-    <!-- El resto del contenido de index.html va aquí -->
-    <!-- ... (todo el contenido que ya tenías) ... -->
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nice Home Care Services | Senior Care Services in San Jose</title>
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --primary: #005A9C; /* San Jose Blue */
+            --secondary: #F2A900; /* Sorroundings Gold */
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+            --bg-light: #F8F9FA;
+            --bg-white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { color: var(--text-dark); line-height: 1.6; font-size: 18px; /* Larger font for accessibility */ }
+        
+        /* --- LANGUAGE TOGGLE LOGIC --- */
+        .lang-es { display: none; }
+        .lang-en { display: inline; }
+        
+        body.es .lang-es { display: inline; }
+        body.es .lang-en { display: none; }
+        
+        /* Block elements need specific display rules */
+        .lang-es.block, .lang-en.block { display: block; }
+        body.es .lang-es.block { display: block; }
+        body.es .lang-en.block { display: none; }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        
+        .lang-switcher {
+            background: var(--bg-light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid var(--primary);
+        }
+        .lang-switcher span { color: var(--primary); }
+        .lang-switcher .active { color: var(--secondary); }
+
+        .phone-header { color: var(--primary); font-weight: bold; font-size: 20px; text-decoration: none;}
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0, 90, 156, 0.8), rgba(0, 90, 156, 0.8)), url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            color: var(--text-light);
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 22px; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--secondary);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.2s, background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background: #d99600; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--text-light); color: var(--text-light); margin-left: 10px;}
+        .btn-outline:hover { background: var(--text-light); color: var(--primary); }
+
+        /* --- SECTIONS GENERAL --- */
+        section { padding: 80px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 36px; color: var(--primary); margin-bottom: 50px; }
+
+        /* --- SERVICES --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card {
+            background: var(--bg-white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-top: 4px solid var(--secondary);
+        }
+        .service-card .icon { font-size: 48px; margin-bottom: 20px; }
+        .service-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 24px; }
+
+        /* --- ABOUT / WHY US --- */
+        .about { background: var(--bg-light); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-text ul { list-style: none; margin-top: 20px; }
+        .about-text li { margin-bottom: 15px; padding-left: 30px; position: relative; }
+        .about-text li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; font-size: 24px; }
+
+        /* --- SERVICE AREAS (CA) --- */
+        .areas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
+        .area-item { background: var(--bg-white); padding: 20px; border-radius: 8px; box-shadow: var(--shadow); font-weight: 500; color: var(--primary); }
+
+        /* --- CONTACT --- */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .contact-info p { margin-bottom: 15px; font-size: 18px; }
+        .contact-info strong { color: var(--primary); }
+        .contact-form input, .contact-form textarea, .contact-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .contact-form textarea { height: 120px; resize: vertical; }
+
+        /* --- FOOTER --- */
+        footer { background: #1a1a1a; color: #ccc; text-align: center; padding: 30px 20px; }
+        footer a { color: var(--secondary); text-decoration: none; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplified for this demo, normally would have a hamburger menu */
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 18px; }
+            .about-content, .contact-grid { grid-template-columns: 1fr; }
+            .phone-header { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">NiceHome<span>CareServices</span> LLC</div>
+            <nav class="nav-links">
+                <a href="#services" class="lang-en">Services</a><a href="#services" class="lang-es">Servicios</a>
+                <a href="#about" class="lang-en">About Us</a><a href="#about" class="lang-es">Nosotros</a>
+                <a href="#areas" class="lang-en">Areas</a><a href="#areas" class="lang-es">Áreas</a>
+                <a href="#contact" class="lang-en">Contact</a><a href="#contact" class="lang-es">Contacto</a>
+                <div class="lang-switcher" onclick="toggleLanguage()">
+                    <span class="en-indicator active">EN</span> | <span class="es-indicator">ES</span>
+                </div>
+            </nav>
+            <a href="tel:+16693314949" class="phone-header">📞 (669) 331-4949</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>
+            <span class="lang-en">Compassionate Senior Care in San Jose and surroundings</span>
+            <span class="lang-es">Cuidado Compasivo para Adultos Mayores en California</span>
+        </h1>
+        <p>
+            <span class="lang-en">Providing trusted, licensed, and personalized in-home care and personal care across San Jose and sorroundings. Bilingual staff available.</span>
+            <span class="lang-es">Brindando atención en el hogar y colocación en vidas asistidas de confianza, con licencia y personalizada en el Estado Dorado. Personal bilingüe disponible.</span>
+        </p>
+        <a href="#contact" class="btn">
+            <span class="lang-en">Schedule a Free Consultation</span>
+            <span class="lang-es">Agende una Consulta Gratis</span>
+        </a>
+        <a href="tel:+16693314949" class="btn btn-outline">
+            <span class="lang-en">Call Now</span>
+            <span class="lang-es">Llame Ahora</span>
+        </a>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="lang-en">Our Care Services</span>
+                <span class="lang-es">Nuestros Servicios de Cuidado</span>
+            </h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🏡</div>
+                    <h3>
+                        <span class="lang-en">In-Home Care</span>
+                        <span class="lang-es">Cuidado y Asistencia en el Hogar</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Personalized assistance with daily activities, meal preparation, medication reminders, and companionship in the comfort of home.</span>
+                        <span class="lang-es">Asistencia personalizada con actividades diarias, preparación de comidas, recordatorios de medicamentos y compañía en la comodidad del hogar.</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🧠</div>
+                    <h3>
+                        <span class="lang-en">Companionship and conversation</span>
+                        <span class="lang-es">Compa ñía y Conversación</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Emptional support, conversation and activities with safety to have a better quality of life.</span>
+                        <span class="lang-es">Apoyo emocional para adultos mayores y conversación y actividades, garantizando seguridad y mejorando su calidad de vida.</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏢</div>
+                    <h3>
+                        <span class="lang-en">Personal Care</span>
+                        <span class="lang-es">Cuidado personal</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Assistance with dignity in bathing, hair cut, dressing, toileting.</span>
+                        <span class="lang-es">Asistencia con dignidad en el aseo personal en el baño, corte de pelo y barba.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / WHY US -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title" style="text-align: left;">
+                        <span class="lang-en">Why Choose Nice Home Care Services?</span>
+                        <span class="lang-es">¿Por qué elegir a Nice Home Care Services?</span>
+                    </h2>
+                    <p>
+                        <span class="lang-en">We are a California-licensed home care organization dedicated to treating your family like our own. We understand the cultural and linguistic needs of California's diverse communities.</span>
+                        <span class="lang-es">Somos una organización de cuidado a domicilio con licencia en California, dedicada a tratar a su familia como si fuera la nuestra. Entendemos las necesidades culturales y lingüísticas de las diversas comunidades de California.</span>
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="lang-en">Licensed by the CA Home Care Services Bureau</span>
+                            <span class="lang-es">Licenciados por la Oficina de Servicios de Cuidado a Domicilio de CA</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Bilingual Staff (English/Spanish)</span>
+                            <span class="lang-es">Personal Bilingüe (Inglés/Español)</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">Background-checked and trained caregivers</span>
+                            <span class="lang-es">Cuidadores con antecedentes verificados y capacitados</span>
+                        </li>
+                        <li>
+                            <span class="lang-en">24/7 Emergency Support Line</span>
+                            <span class="lang-es">Línea de apoyo de emergencia 24/7</span>
+                        </li>
+                    </ul>
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Caregiver and senior" style="width: 100%; border-radius: 15px; box-shadow: var(--shadow);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE AREAS -->
+    <section id="areas">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="lang-en">Proudly Serving San Jose and surrounding Communities</span>
+                <span class="lang-es">Sirviendo con Orgullo a las Comunidades de San Jose y alrededores</span>
+            </h2>
+            <div class="areas-grid">
+                <div class="area-item">San Jose</div>
+                <div class="area-item">Santa Clara</div>
+                <div class="area-item">Milpitas</div>
+                <div class="area-item">Cupertino</div>
+                <div class="area-item">Sorroundings</div>
+                <div class="area-item">As requested</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="lang-en">Contact Us Today</span>
+                <span class="lang-es">Contáctenos Hoy</span>
+            </h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;">
+                        <span class="lang-en">Get in Touch</span>
+                        <span class="lang-es">Póngase en Contacto</span>
+                    </h3>
+                    <p><strong>📍 <span class="lang-en">Address:</span><span class="lang-es">Dirección:</span></strong><br>
+                    650 Lotus, Suite 100<br>San Jose, CA 95116</p>
+                    
+                    <p><strong>📞 <span class="lang-en">Phone:</span><span class="lang-es">Teléfono:</span></strong><br>
+                    <a href="tel:+16693314949" style="color: var(--text-dark); text-decoration: none;">(669) 331-4949</a></p>
+                    
+                    <p><strong>✉️ <span class="lang-en">Email:</span><span class="lang-es">Correo:</span></strong><br>
+                    <a href="mailto:info@nicehomecareservices.com" style="color: var(--text-dark); text-decoration: none;">info@nicehomecareservices.com</a></p>
+
+                    <p style="margin-top: 20px; font-style: italic; color: #666;">
+                        <span class="lang-en">We offer free in-home assessments. Hablamos Español.</span>
+                        <span class="lang-es">Ofrecemos evaluaciones a domicilio gratuitas. We speak English.</span>
+                    </p>
+                </div>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! / ¡Gracias!');">
+                    <input type="text" placeholder="Full Name / Nombre Completo" required>
+                    <input type="tel" placeholder="Phone Number / Número de Teléfono" required>
+                    <input type="email" placeholder="Email / Correo Electrónico">
+                    <select required>
+                        <option value="" disabled selected>Select Service / Seleccione Servicio</option>
+                        <option value="in-home">In-Home Care / Cuidado en el Hogar</option>
+                        <option value="Personal">Personal Care Care / Asistencia personal en el hogar con sus actividades diarias</option>
+                        <option value="Personal care">Assistance with daily activities/ Asistenciacon sus actividades diarias</option>
+                    </select>
+                    <textarea placeholder="How can we help your family? / ¿Cómo podemos ayudar a su familia?"></textarea>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <span class="lang-en">Send Message</span>
+                        <span class="lang-es">Enviar Mensaje</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Nice Home Care Services LLC. 
+            <span class="lang-en">All Rights Reserved. Licensed by the State of California.</span>
+            <span class="lang-es">Todos los Derechos Reservados. Licenciado por el Estado de California.</span>
+        </p>
+        <p style="margin-top: 10px; font-size: 14px;">
+            <a href="#" class="lang-en">Privacy Policy</a><a href="#" class="lang-es">Política de Privacidad</a> | 
+            <a href="#" class="lang-en">Terms of Service</a><a href="#" class="lang-es">Términos de Servicio</a>
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function toggleLanguage() {
+            const body = document.body;
+            const enIndicator = document.querySelector('.en-indicator');
+            const esIndicator = document.querySelector('.es-indicator');
+            
+            if (body.classList.contains('es')) {
+                body.classList.remove('es');
+                document.documentElement.lang = 'en';
+                enIndicator.classList.add('active');
+                esIndicator.classList.remove('active');
+            } else {
+                body.classList.add('es');
+                document.documentElement.lang = 'es';
+                esIndicator.classList.add('active');
+                enIndicator.classList.remove('active');
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
