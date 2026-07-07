@@ -1,7 +1,7 @@
-User-agent: *
+User-agent: 
 Allow: /
 allow: /admin/
 allow: /api/
-allow: /private/
+disallow: /private/
 
 Sitemap: https://nicehomecareservices.com/sitemap.xml
