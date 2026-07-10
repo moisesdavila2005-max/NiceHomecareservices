@@ -116,7 +116,7 @@ describe("Resend API Configuration", () => {
         
         const { data, error } = await resend.emails.send({
           from: "onboarding@resend.dev",
-          to: ["test@example.com"],
+          to: ["moisesdavila2005@gmail.com"],
           subject: "Test Email",
           html: "<p>This is a test email from Resend</p>",
         });
