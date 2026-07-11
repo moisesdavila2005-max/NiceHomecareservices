@@ -2,7 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
-import { contactRouter } from "./routers/contact";
+import { contactRouter } from "./backend/contact";
 
 /**
  * Router principal de la aplicación.
@@ -36,7 +36,6 @@ export const appRouter = router({
         return { success: true };
       } catch (error) {
         // En caso de error, aún retornamos éxito para no exponer detalles internos
-        // pero idealmente deberías loguearlo
         console.error("Error durante logout:", error);
         return { success: false };
       }
