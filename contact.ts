@@ -9,7 +9,7 @@ import {
   getContactSubmissionById,
   deleteContactSubmission,
   withTransaction,
-} from "../db";
+} from "../database/db";
 import { UserRole, ContactStatus } from "../../drizzle/schema";
 import { ENV } from "../_core/env";
 import { emailQueue } from "../_core/queue";
@@ -247,7 +247,7 @@ export const contactRouter = router({
         if (input.message.includes("http") || input.message.includes("www")) {
           console.warn("[Contact] Spam detected - URL in message", { email: input.email });
         
- // Si tiene URL, lo marcamos como spam directamente
+ //  Si tiene URL, lo marcamos como spam directamente
           const spamSubmission = await createContactSubmission({
             name: input.name,
             email: input.email,
@@ -259,7 +259,7 @@ export const contactRouter = router({
             userAgent: ctx.req?.headers?.["user-agent"],
           });
 
-  // No notificamos sobre spam
+  //  No notificamos sobre spam
           return {
             success: true,
             message: "Thank you for your message. We'll get back to you soon!",
@@ -274,7 +274,7 @@ export const contactRouter = router({
 
         const submission = await withTransaction(async (tx) => {
          
- // Crear submission
+ //  Crear submission
 
           const newSubmission = await createContactSubmission({
             name: input.name,
@@ -406,7 +406,7 @@ emailResult = await sendContactNotification(input, submissionId);
     .input(z.object({ id: z.number().int().positive() }))
     .query(async ({ input, ctx }) => {
       // Verificar permisos
-    
+     
   if (ctx.user?.role !== UserRole.ADMIN && ctx.user?.role !== UserRole.SUPER_ADMIN) {
         throw new TRPCError({
           code: "FORBIDDEN",
