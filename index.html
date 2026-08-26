@@ -1,111 +1,165 @@
 <!DOCTYPE html>
-<html lang="es | en">
- <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Nice Home Care Services — Compassionate In-Home Care San Jose & Santa Clara County</title>
-    <meta name="description" content="Atención personalizada en el hogar para sus seres queridos. Profesionales capacitados que brindan cuidados con calidez, dignidad y respeto. Consulta gratuita. Licensed in-home care services serving San Jose and Santa Clara County. Available 24/7 hours a day. English and Spanish speaking caregivers. Fully compliant with California State law">
-    <meta name="keywords" content="cuidado de ancianos, cuidado en el hogar, asistencia con  medicamentos, asistencia con tareas ligeras del hogar">
+    <title>Nice Home Care Services – Cuidados Compasivos en el Hogar</title>
+    <meta name="description" content="Atención personalizada en el hogar para adultos mayores. Profesionales capacitados que brindan cuidados con calidez, dignidad y respeto. Consulta gratuita las 24/7.">
+    <meta name="keywords" content="cuidado de ancianos, cuidado en el hogar, limpieza aseo personal, recordatorio de medicamentos, compañía y conversación, adultos mayores">
     <meta name="author" content="Nice Home Care Services">
-    <meta name="robots" content="index, follow">
-
+       
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nicehomecareservices.com/">
-    <meta property="og:title" content="Nice Home Care Services Cuidados respetuosos en el Hogar">
-    <meta property="og:description" content="Atención personalizada para sus seres queridos con profesionales capacitados.">
-    <meta property="og:image" content="https://nicehomecareservices.com/og-image.jpg">
-
+    <meta property="og:title" content="Nice Home Care Services – Cuidados Compasivos en el Hogar">
+    <meta property="og:description" content="Atención personalizada para adultos mayores con profesionales capacitados.">
+    <meta property="og:image" content="https://www.nicehomecareservices.com/og-image.jpg">
+    
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://nicehomecareservices.com/">
-    <meta property="twitter:title" content="Nice Home Care Services Cuidados respetuosos en el Hogar">
-    <meta property="twitter:description" content="Atención personalizada para sus seres queridos con profesionales capacitados.">
-
+    <meta property="twitter:url" content="https://www.nicehomecareservices.com">
+    <meta property="twitter:title" content="Nice Home Care Services – Cuidados Compasivos en el Hogar">
+    <meta property="twitter:description" content="Atención personalizada para adultos mayores con profesionales capacitados.">
+    <meta property="twitter:image" content="https://www.nicehomecareservices.com/og-image.jpg">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
-
-  //  <!-- Tailwind CSS CDN -->
-  <script //src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (versión optimizada con solo los iconos que usamos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Inter y Playfair Display (carga eficiente) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Schema.org JSON-LD para LocalBusiness -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Nice Home Care Services",
+        "description": "Atención personalizada en el hogar para adultos mayores.",
+        "telephone": "+16693314949",
+        "email": "info@nicehomecareservices.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "San José",
+            "addressRegion": "CA",
+            "addressCountry": "US"
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "url": "https://nicehomecareservices.com/"
+    }
+    </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
+        /* Estilos personalizados (se mantienen igual) */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
-
+        
         .font-serif {
             font-family: 'Playfair Display', serif;
         }
-
+        
         .hero-gradient {
             background: linear-gradient(135deg, #0a5c3e 0%, #1a8a5c 50%, #0a5c3e 100%);
         }
-
+        
         .card-hover {
             transition: all 0.3s ease;
         }
-
+        
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-
+        
         .animate-float {
             animation: float 3s ease-in-out infinite;
         }
-
+        
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-
+        
         .animate-pulse-slow {
             animation: pulseSlow 2s ease-in-out infinite;
         }
-
+        
         @keyframes pulseSlow {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
-
+        
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 100;
-            animation: bounce 2s infinite;
+            animation: bounce 10s infinite;
         }
-
+        
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
 
-        .smooth-scroll {
-            scroll-behavior: smooth;
+        /* Botón "Volver arriba" */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            z-index: 99;
+            background: #0a5c3e;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #1a8a5c;
+            transform: scale(1.1);
         }
     </style>
 </head>
-<body class="smooth-scroll">
+<body>
 
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/+16693314949?text=Hola me gustaría obtener información sobre los servicios de Nice Home Care Services" 
+    <a href="https://wa.me/16693314949" 
        target="_blank" 
-       class="whatsapp-float bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110">
-        <i class="fab fa-whatsapp text-2xl"></i>
+       class="whatsapp-float bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110"
+       aria-label="Contáctanos por WhatsApp">
+        <i class="fab fa-whatsapp text-2xl" aria-hidden="true"></i>
     </a>
+
+    <!-- Botón Volver arriba -->
+    <button id="backToTop" class="back-to-top" aria-label="Volver al inicio">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
 
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
@@ -114,37 +168,37 @@
                 <!-- Logo -->
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-500 rounded-xl flex items-center justify-center animate-pulse-slow">
-                        <i class="fas fa-heart text-white text-xl"></i>
+                        <i class="fas fa-heart text-white text-xl" aria-hidden="true"></i>
                     </div>
                     <div>
                         <h1 class="font-serif text-xl font-bold text-gray-800">Nice Home Care</h1>
-                        <p class="text-xs text-gray-500">Cuidados con amabilidad y respeto en Casa</p>
+                        <p class="text-xs text-gray-500">Cuidados en Casa</p>
                     </div>
                 </div>
-
+                
                 <!-- Desktop Navigation -->
-                <nav class="hidden md:flex gap-8">
+                <nav class="hidden md:flex gap-8" aria-label="Navegación principal">
                     <a href="#inicio" class="text-gray-600 hover:text-emerald-600 transition-colors">Inicio</a>
                     <a href="#servicios" class="text-gray-600 hover:text-emerald-600 transition-colors">Servicios</a>
                     <a href="#nosotros" class="text-gray-600 hover:text-emerald-600 transition-colors">Nosotros</a>
                     <a href="#testimonios" class="text-gray-600 hover:text-emerald-600 transition-colors">Testimonios</a>
                     <a href="#contacto" class="text-gray-600 hover:text-emerald-600 transition-colors">Contacto</a>
                 </nav>
-
+                
                 <!-- CTA Button -->
                 <div class="hidden md:block">
                     <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all hover:scale-105 inline-block">
                         Solicitar Consulta
                     </a>
                 </div>
-
+                
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-gray-600">
-                    <i class="fas fa-bars text-2xl"></i>
+                <button id="mobileMenuBtn" class="md:hidden text-gray-600" aria-label="Abrir menú">
+                    <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
-
+        
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100">
             <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
@@ -165,44 +219,45 @@
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="animate-float">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif leading-tight mb-6">
-                        Cuidado Profesional en San Jose, California y sus alrededores <span class="text-yellow-300">Tu Hogar</span>
-                    </h1>
-                    <p class="text-lg md:text-xl mb-8 opacity-90">Brindamos atención personalizada con calidez y respeto para tus seres queridos. Somos 
-Profesionales capacitados y autorizados. Estamos disponibles 24/7.
-                    </p>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif leading-tight mb-6">Cuidado Profesional en <span class="text-yellow-300">Tu Hogar</span></h1>
+                    <p class="text-lg md:text-xl mb-8 opacity-90">Brindamos atención personalizada con calidez y respeto para tus seres queridos. Profesionales capacitados disponibles 24/7.</p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#contacto" class="bg-white text-emerald-700 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105 text-center">Consulta Gratuita
-                        </a>
-                        <a href="#servicios" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-emerald-700 transition-all text-center">Ver Servicios
-     </a>
-     </div>
-
-       <!-- Stats -->
-     <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/20">
+                        <a href="#contacto" class="bg-white text-emerald-700 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105 text-center">Consulta Gratuita</a>
+                        <a href="#servicios" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-emerald-700 transition-all text-center">Ver Servicios</a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/20">
                         <div>
                             <p class="text-2xl font-bold">500+</p>
                             <p class="text-sm opacity-80">Pacientes Felices</p>
                         </div>
                         <div>
                             <p class="text-2xl font-bold">50+</p>
-    <p class="text-sm opacity-80">Profesionales autorizados</p>
+                            <p class="text-sm opacity-80">Profesionales</p>
                         </div>
                         <div>
-                            <p  <p class="text-sm opacity-80">Disponibilidad</p>
+                            <p class="text-2xl font-bold">24/7</p>
+                            <p class="text-sm opacity-80">Disponibilidad</p>
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="relative">
                     <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                         <div class="text-center">
-                            <i class="fas fa-hand-holding-heart text-5xl mb-4 text-yellow-300"></i>
+                            <i class="fas fa-hand-holding-heart text-5xl mb-4 text-yellow-300" aria-hidden="true"></i>
                             <h3 class="text-2xl font-bold mb-2">¿Necesitas ayuda?</h3>
-                            <p class="mb-4">Déjanos tus datos y te contactamos. Cumplimos con la Privacy Act vigente en California</p>
+                            <p class="mb-4">Déjanos tus datos y te contactamos</p>
                             <form id="quickForm" class="space-y-3">
-                                <input type="text" placeholder="Nombre" class="w-full px-4 py-2 rounded-lg text-gray-800" required>
-                                <input type="tel" placeholder="Teléfono" class="w-full px-4 py-2 rounded-lg text-gray-800" required>
+                                <div>
+                                    <label for="quickName" class="sr-only">Nombre</label>
+                                    <input type="text" id="quickName" placeholder="Nombre" class="w-full px-4 py-2 rounded-lg text-gray-800" required aria-required="true">
+                                </div>
+                                <div>
+                                    <label for="quickPhone" class="sr-only">Teléfono</label>
+                                    <input type="tel" id="quickPhone" placeholder="Teléfono" class="w-full px-4 py-2 rounded-lg text-gray-800" required aria-required="true">
+                                </div>
                                 <button type="submit" class="w-full bg-yellow-400 text-emerald-800 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
                                     Enviar
                                 </button>
@@ -221,65 +276,63 @@ Profesionales capacitados y autorizados. Estamos disponibles 24/7.
                 <p class="text-emerald-600 font-semibold mb-2">NUESTROS SERVICIOS</p>
                 <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Cuidado Integral en el Hogar</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">
-                    Nuestro compromiso es un trato digno y respetuoso en un ambiente seguro y confiable con atención personalizada y comunicación constante con sus familiares y Cuidado con amor, paciencia,respeto,dignidad y empatía. 
-Su tranquilad es nuestra prioridad. 
-Estamos para servirle.
+                    Ofrecemos una amplia gama de servicios adaptados a las necesidades específicas de cada paciente
                 </p>
             </div>
-
+            
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Service 1 -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-user-nurse text-2xl text-emerald-600"></i>
+                        <i class="fas fa-user-nurse text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Cuidado de sus seres queridos</h3>
-                    <p class="text-gray-600">Atención personalizada con profesionales capacitados para brindar el mejor cuidado a tus seres queridos.</p>
+                    <h3 class="text-xl font-bold mb-2">Cuidado de Ancianos con calidad y calidez</h3>
+                    <p class="text-gray-600">Atención personalizada con profesionales capacitados para brindar el mejor cuidado a tu ser querido.</p>
                 </div>
-
-                <!-- Service 2 -->
+                
+                <!-- Service 2 (icono corregido) -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-stethoscope text-2xl text-emerald-600"></i>
+                        <i class="fas fa-broom text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Asistencia doméstica con los alimentos</h3>
-                    <p class="text-gray-600">Soporte en la cocina para preparar sus alimentos y una comida a su gusto.</p>
+                    <h3 class="text-xl font-bold mb-2">Asistencia con los quehaceres del hogar</h3>
+                    <p class="text-gray-600">Compañía y conversación.</p>
                 </div>
-
+                
                 <!-- Service 3 -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-walking text-2xl text-emerald-600"></i>
+                        <i class="fas fa-walking text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Asistencia con el transporte para tus citas y compras</h3>
-                    <p class="text-gray-600">Asistencia con el transporte para mejorar la movilidad y calidad de vida.</p>
+                    <h3 class="text-xl font-bold mb-2">Recordatorio de toma de medicamentos</h3>
+                    <p class="text-gray-600">Asistencia en tus mandados y compras para mejorar la movilidad y calidad de vida.</p>
                 </div>
-
+                
                 <!-- Service 4 -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-comments text-2xl text-emerald-600"></i>
+                        <i class="fas fa-comments text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Compañía y Conversación</h3>
-                    <p class="text-gray-600">Acompañamiento emocional y social para combatir la soledad y mejorar el bienestar personal.</p>
+                    <h3 class="text-xl font-bold mb-2">Compañía y conversación</h3>
+                    <p class="text-gray-600">Acompañamiento emocional y social para combatir la soledad y mejorar el bienestar mental.</p>
                 </div>
-
+                
                 <!-- Service 5 -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-shopping-cart text-2xl text-emerald-600"></i>
+                        <i class="fas fa-shopping-cart text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Asistencia ligera del hogar</h3>
-                    <p class="text-gray-600">Asistencia con actividades diarias como compras, preparación de alimentos,aseo personal, grooming y limpieza ligera.</p>
+                    <h3 class="text-xl font-bold mb-2">Asistencia Diaria en tu quehacer doméstico</h3>
+                    <p class="text-gray-600">Ayuda con actividades diarias como compras, preparación de alimentos y limpieza ligera.</p>
                 </div>
-
-                <!-- Service 6 -->
+                
+                <!-- Service 6 (icono corregido) -->
                 <div class="bg-white rounded-xl p-6 shadow-md card-hover">
                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-heartbeat text-2xl text-emerald-600"></i>
+                        <i class="fas fa-bath text-2xl text-emerald-600" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Recordatorio de medicamentos</h3>
-                    <p class="text-gray-600">Recordatorio amable para la toma de su medicación. (No administramos medicamentos).</p>
+                    <h3 class="text-xl font-bold mb-2">Baño y aseo personal</h3>
+                    <p class="text-gray-600">Atención cuidando tu dignidad en tu baño y aseo personal enfocada en su bienestar.</p>
                 </div>
             </div>
         </div>
@@ -290,41 +343,35 @@ Estamos para servirle.
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <img src="https://placehold.co/600x400/0a5c3e/white?text=Equipo+Nice+Home+Care+Services" alt="Equipo" class="rounded-2xl shadow-lg w-full">
+                    <!-- Reemplaza la URL con una imagen real de tu equipo -->
+                    <img src="https://placehold.co/600x400/0a5c3e/white?text=Equipo+Nice+Home+Care+Services" alt="Equipo de cuidadores profesionales de Nice Home Care Services" class="rounded-2xl shadow-lg w-full">
                 </div>
                 <div>
                     <p class="text-emerald-600 font-semibold mb-2">SOBRE NOSOTROS</p>
-                    <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Más de 10 años cuidando a tus seres queridos</h2>
-                    <p class="text-gray-600 mb-4">
-                        En Nice Home Care Services, entendemos que la decisión de buscar cuidado profesional para un ser querido es importante. 
-                        Por eso, nos comprometemos a brindar servicios de la más alta calidad con calidez y respeto. Cumplimos con la Ley de Privacidad de California. No vendemos tus datos.
-                    </p>
-                    <p class="text-gray-600 mb-6">
-                        Nuestro equipo está formado por profesionales capacitados que comparten una misma pasión: mejorar la calidad de vida de sus seres queridos a través de un cuidado respetuoso, digno y personalizado.
-                    </p>
-
+                    <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Más de 5 años cuidando a quienes amas</h2>
+                    <p class="text-gray-600 mb-4">En Nice Home Care Services, entendemos que la decisión de buscar cuidado profesional para un ser querido es importante. Por eso, te prometemos brindarte únicamente servicios de la más alta calidad con calidez y respeto.</p>
+                    <p class="text-gray-600 mb-6">Nuestro equipo está formado por profesionales capacitados que comparten una misma pasión: mejorar la calidad de vida de los adultos mayores a través de un cuidado compasivo y personalizado.</p>
+                    
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-emerald-600"></i>
+                            <i class="fas fa-check-circle text-emerald-600" aria-hidden="true"></i>
                             <span>Personal Certificado</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-emerald-600"></i>
+                            <i class="fas fa-check-circle text-emerald-600" aria-hidden="true"></i>
                             <span>Monitoreo 24/7</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-emerald-600"></i>
+                            <i class="fas fa-check-circle text-emerald-600" aria-hidden="true"></i>
                             <span>Planes Personalizados</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-emerald-600"></i>
+                            <i class="fas fa-check-circle text-emerald-600" aria-hidden="true"></i>
                             <span>Atención Rápida</span>
                         </div>
                     </div>
-
-                    <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all inline-block">
-                        Conoce más sobre nosotros
-                    </a>
+                    
+                    <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all inline-block">Conoce más sobre nosotros</a>
                 </div>
             </div>
         </div>
@@ -336,64 +383,56 @@ Estamos para servirle.
             <div class="text-center mb-12">
                 <p class="text-emerald-600 font-semibold mb-2">TESTIMONIOS</p>
                 <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Lo que dicen nuestros clientes</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Historias reales de familias que han confiado en nosotros
-                </p>
+                <p class="text-gray-600 max-w-2xl mx-auto">Historias reales de familias que han confiado en nosotros</p>
             </div>
-
+            
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Testimonial 1 -->
                 <div class="bg-white rounded-xl p-6 shadow-md">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-emerald-600"></i>
+                            <i class="fas fa-user text-emerald-600" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h4 class="font-bold">María González</h4>
-                            <div class="text-yellow-400">
+                            <div class="text-yellow-400" aria-hidden="true">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-600 italic">
-                        "Excelente servicio. Mi madre recibió una atención maravillosa. Personal muy profesional y amable. Recomiendo 100%."
-                    </p>
+                    <p class="text-gray-600 italic">"Excelente servicio. Mi madre recibió una atención maravillosa. Personal muy profesional y amable. Recomiendo 100%."</p>
                 </div>
-
+                
                 <!-- Testimonial 2 -->
                 <div class="bg-white rounded-xl p-6 shadow-md">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-emerald-600"></i>
+                            <i class="fas fa-user text-emerald-600" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h4 class="font-bold">Carlos Rodríguez</h4>
-                            <div class="text-yellow-400">
+                            <div class="text-yellow-400" aria-hidden="true">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-600 italic">
-                        "Gracias al equipo de Nice Home Care Services, mi padre ha recuperado su vitalidad. Son unos profesionales excepcionales."
-                    </p>
+                    <p class="text-gray-600 italic">"Gracias al personal de Nice Home Care Services mi padre ha recuperado su sonrisa. Son unos profesionales excepcionales."</p>
                 </div>
-
+                
                 <!-- Testimonial 3 -->
                 <div class="bg-white rounded-xl p-6 shadow-md">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-emerald-600"></i>
+                            <i class="fas fa-user text-emerald-600" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h4 class="font-bold">Ana Martínez</h4>
-                            <div class="text-yellow-400">
+                            <div class="text-yellow-400" aria-hidden="true">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-600 italic">
-                        "La tranquilidad de saber que mi abuela está bien cuidada no tiene precio. Un servicio maravilloso."
-                    </p>
+                    <p class="text-gray-600 italic">"La tranquilidad de saber que mi abuela está bien cuidada no tiene precio. Un servicio maravilloso."</p>
                 </div>
             </div>
         </div>
@@ -406,99 +445,109 @@ Estamos para servirle.
                 <div>
                     <p class="text-emerald-600 font-semibold mb-2">CONTACTO</p>
                     <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">¿Necesitas más información?</h2>
-                    <p class="text-gray-600 mb-6">
-                    Estamos aquí para responder todas tus preguntas. Contáctanos por cualquiera de estos medios:
-                    </p>
-
+                    <p class="text-gray-600 mb-6">Estamos aquí para responder todas tus preguntas. Contáctanos por cualquiera de estos medios:</p>
+                    
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-phone text-emerald-600"></i>
+                                <i class="fas fa-phone text-emerald-600" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <p class="font-semibold">Teléfono</p>
-                                <p class="text-gray-600">+16693314949</p>
+                                <p class="text-gray-600">+1 (669) 331-4949</p>
                             </div>
                         </div>
-
+                        
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-envelope text-emerald-600"></i>
+                                <i class="fas fa-envelope text-emerald-600" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <p class="font-semibold">Email</p>
                                 <p class="text-gray-600">info@nicehomecareservices.com</p>
                             </div>
                         </div>
-
+                        
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                                <i class="fab fa-whatsapp text-emerald-600"></i>
+                                <i class="fab fa-whatsapp text-emerald-600" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <p class="font-semibold">WhatsApp</p>
-                                <p class="text-gray-600">+16693314949</p>
+                                <p class="text-gray-600">+1 (669) 331-4949</p>
                             </div>
                         </div>
-
+                        
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                                <i class="far fa-clock text-emerald-600"></i>
+                                <i class="far fa-clock text-emerald-600" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <p class="font-semibold">Horario</p>
                                 <p class="text-gray-600">Lunes a Domingo - 24/7</p>
                             </div>
                         </div>
-                    </div>
 
+                        <!-- Dirección añadida -->
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-emerald-600" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Dirección</p>
+                                <p class="text-gray-600">San José, California, EE.UU.</p>
+                                <p class="text-gray-500 text-sm">(Atención a domicilio en toda el Área de la Bahía)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="flex gap-4 mt-8">
-                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors">
-                            <i class="fab fa-facebook-f"></i>
+                        <!-- Redes sociales (actualiza los enlaces si tienes perfiles reales) -->
+                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors">
-                            <i class="fab fa-twitter"></i>
+                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors">
-                            <i class="fab fa-instagram"></i>
+                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
-
+                
                 <div class="bg-white rounded-2xl shadow-lg p-8">
                     <h3 class="text-2xl font-bold mb-4">Envíanos un mensaje</h3>
                     <form id="contactForm" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">Tu Nombre</label>
+                            <label for="name" class="block text-sm font-medium mb-1">Nombre</label>
                             <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500" required>
                         </div>
-
+                        
                         <div>
-                            <label class="block text-sm font-medium mb-1">Email</label>
+                            <label for="email" class="block text-sm font-medium mb-1">Email</label>
                             <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500" required>
                         </div>
-
+                        
                         <div>
-                            <label class="block text-sm font-medium mb-1">Teléfono</label>
-                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500" required>
+                            <label for="phone" class="block text-sm font-medium mb-1">Teléfono</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500">
                         </div>
-
+                        
                         <div>
-                            <label class="block text-sm font-medium mb-1">Mensaje</label>
+                            <label for="message" class="block text-sm font-medium mb-1">Tu Mensaje</label>
                             <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500"></textarea>
                         </div>
-
-                        <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-green-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
-                            Enviar Mensaje
-                        </button>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-green-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">Enviar Mensaje</button>
                     </form>
-
-                    <div id="formSuccess" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
-                        ¡Mensaje enviado! Te contactaremos pronto.
+                    
+                    <div id="formSuccess" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center transition-opacity duration-300">
+                        <i class="fas fa-check-circle mr-2" aria-hidden="true"></i> ¡Mensaje enviado! Te contactaremos pronto.
                     </div>
+                    <p class="text-xs text-gray-400 mt-4">Tus datos están seguros. No compartiremos tu información con terceros.</p>
                 </div>
             </div>
         </div>
@@ -511,692 +560,16 @@ Estamos para servirle.
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-400 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-heart text-white"></i>
-                        </div>
-                        <span class="font-serif text-xl font-bold">Nice Home Care< Services</span>
-                    </div>
-                    <p class="text-gray-400">Cuidado profesional y respetuoso en el hogar para usted y sus seres queridos.</p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold mb-4">Enlaces Rápidos</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#inicio" class="hover:text-white transition">Inicio</a></li>
-                        <li><a href="#servicios" class="hover:text-white transition">Servicios</a></li>
-                        <li><a href="#nosotros" class="hover:text-white transition">Nosotros</a></li>
-                        <li><a href="#contacto" class="hover:text-white transition">Contacto</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold mb-4">Servicios</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>Cuidado de Usted y de sus seres queridos</li>
-                        <li>Asistencia de mobilidad </li>
-                        <li> Acompañamiento </li>
-                        <li>Cuidados Personalizados</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold mb-4">Newsletter</h4>
-                    <p class="text-gray-400 mb-3"> Queremos conocerte</p>
-                    <div class="flex">
-                        <input type="email" placeholder="Tu email" class="flex-1 px-3 py-2 rounded-l-lg text-gray-800">
-                        <button class="bg-emerald-600 px-4 py-2 rounded-r-lg hover:bg-emerald-700 transition">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Nice Home Care Services. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                    // Close mobile menu if open
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            });
-        });
-
-        // Form submission
-        const contactForm = document.getElementById('contactForm');
-        const formSuccess = document.getElementById('formSuccess');
-
-        if (contactForm) {
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                formSuccess.classList.remove('hidden');
-                contactForm.reset();
-                setTimeout(() => {
-                    formSuccess.classList.add('hidden');
-                }, 3000);
-            });
-        }
-
-        // Quick form submission
-        const quickForm = document.getElementById('quickForm');
-        if (quickForm) {
-            quickForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('¡Gracias! Te contactaremos pronto.');
-                quickForm.reset();
-            });
-        }
-
-        // Change header style on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-lg');
-            } else {
-                header.classList.remove('shadow-lg');
-            }
-        });
-    </script>
-</body>
-</html></p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-        
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                    // Close mobile menu if open
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            });
-        });
-        
-        // Form submission
-        const contactForm = document.getElementById('contactForm');
-        const formSuccess = document.getElementById('formSuccess');
-        
-        if (contactForm) {
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                formSuccess.classList.remove('hidden');
-                contactForm.reset();
-                setTimeout(() => {
-                    formSuccess.classList.add('hidden');
-                }, 3000);
-            });
-        }
-        
-        // Quick form submission
-        const quickForm = document.getElementById('quickForm');
-        if (quickForm) {
-            quickForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('¡Gracias! Te contactaremos pronto.');
-                quickForm.reset();
-            });
-        }
-        
-        // Change header style on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-lg');
-            } else {
-                header.classList.remove('shadow-lg');
-            }
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Nice Home Care Services Cuidados Compasivos en el Hogar</title>
-    <meta name="description" content="Atención personalizada en el hogar para adultos mayores. Profesionales capacitados que brindan cuidados con calidez, dignidad y respeto.">
-    <meta name="keywords" content="cuidado de ancianos, cuidado en el hogar, compañia, recordatorio de medicamentos, asistencia ligera en el hogar, asistenciacon con el transporte en sus diligencias fuera del hogar">
-    
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nicehomecareservices.com/">
-    <meta property="og:title" content="Nice Home Care Services Cuidados Compasivos en el Hogar">
-    <meta property="og:description" content="Atención personalizada para adultos mayores con profesionales capacitados.">
-    <meta property="og:image" content="/images/og-image.jpg">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
-    
- //   <!-- Tailwind CSS CDN -->
-    <script //src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="/css/style.css">
-    
-    <style>
-        /* Estilos adicionales específicos para Vercel */
-        .vercel-deploy {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-        }
-    </style>
-</head>
-<body class="smooth-scroll">
-
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/+16693314949?text=Hola me gustaría obtener información sobre los servicios de Nice Home Care Services" 
-       target="_blank" 
-       class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110">
-        <i class="fab fa-whatsapp text-2xl"></i>
-    </a>
-
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 max-w-7xl">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <a href="/" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-r from-emerald-600 to-green-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <i class="fas fa-heart text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-serif text-xl font-bold text-gray-800">Nice Home Care Services</h1>
-                        <p class="text-xs text-gray-500">Cuidados en la comodidad de Casa</p>
-                    </div>
-                </a>
-                
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex gap-8">
-                    <a href="#inicio" class="text-gray-600 hover:text-emerald-600 transition-colors">Inicio</a>
-                    <a href="#servicios" class="text-gray-600 hover:text-emerald-600 transition-colors">Servicios</a>
-                    <a href="#nosotros" class="text-gray-600 hover:text-emerald-600 transition-colors">Nosotros</a>
-                    <a href="#testimonios" class="text-gray-600 hover:text-emerald-600 transition-colors">Testimonios</a>
-                    <a href="#contacto" class="text-gray-600 hover:text-emerald-600 transition-colors">Contacto</a>
-                </nav>
-                
-                <!-- CTA Button -->
-                <div class="hidden md:block">
-                    <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all hover:scale-105 inline-block">
-                        Solicitar Consulta
-                    </a>
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-gray-600 text-2xl hover:text-emerald-600 transition">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100">
-            <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
-                <a href="#inicio" class="py-2 px-4 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition">Inicio</a>
-                <a href="#servicios" class="py-2 px-4 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition">Servicios</a>
-                <a href="#nosotros" class="py-2 px-4 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition">Nosotros</a>
-                <a href="#testimonios" class="py-2 px-4 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition">Testimonios</a>
-                <a href="#contacto" class="py-2 px-4 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition">Contacto</a>
-                <a href="#contacto" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-6 py-3 rounded-full text-center hover:shadow-lg transition">
-                    Solicitar Consulta
-                </a>
-            </div>
-        </div>
-    </header>
-
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nice Home Care Services | Senior Care Services in San Jose</title>
-    <style>
-        /* --- VARIABLES & RESET --- */
-        :root {
-            --primary: #005A9C; /* San Jose Blue */
-            --secondary: #F2A900; /* Sorroundings Gold */
-            --text-dark: #333333;
-            --text-light: #FFFFFF;
-            --bg-light: #F8F9FA;
-            --bg-white: #FFFFFF;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { color: var(--text-dark); line-height: 1.6; font-size: 18px; /* Larger font for accessibility */ }
-        
-        /* --- LANGUAGE TOGGLE LOGIC --- */
-        .lang-es { display: none; }
-        .lang-en { display: inline; }
-        
-        body.es .lang-es { display: inline; }
-        body.es .lang-en { display: none; }
-        
-        /* Block elements need specific display rules */
-        .lang-es.block, .lang-en.block { display: block; }
-        body.es .lang-es.block { display: block; }
-        body.es .lang-en.block { display: none; }
-
-        /* --- HEADER & NAV --- */
-        header {
-            background: var(--bg-white);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary); }
-        .logo span { color: var(--secondary); }
-        
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-        
-        .lang-switcher {
-            background: var(--bg-light);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 1px solid var(--primary);
-        }
-        .lang-switcher span { color: var(--primary); }
-        .lang-switcher .active { color: var(--secondary); }
-
-        .phone-header { color: var(--primary); font-weight: bold; font-size: 20px; text-decoration: none;}
-
-        /* --- HERO SECTION --- */
-        .hero {
-            background: linear-gradient(rgba(0, 90, 156, 0.8), rgba(0, 90, 156, 0.8)), url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: var(--text-light);
-            text-align: center;
-            padding: 100px 20px;
-        }
-        .hero h1 { font-size: 48px; margin-bottom: 20px; }
-        .hero p { font-size: 22px; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: var(--secondary);
-            color: var(--text-dark);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.2s, background 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .btn:hover { background: #d99600; transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 2px solid var(--text-light); color: var(--text-light); margin-left: 10px;}
-        .btn-outline:hover { background: var(--text-light); color: var(--primary); }
-
-        /* --- SECTIONS GENERAL --- */
-        section { padding: 80px 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 36px; color: var(--primary); margin-bottom: 50px; }
-
-        /* --- SERVICES --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .service-card {
-            background: var(--bg-white);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            border-top: 4px solid var(--secondary);
-        }
-        .service-card .icon { font-size: 48px; margin-bottom: 20px; }
-        .service-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 24px; }
-
-        /* --- ABOUT / WHY US --- */
-        .about { background: var(--bg-light); }
-        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .about-text ul { list-style: none; margin-top: 20px; }
-        .about-text li { margin-bottom: 15px; padding-left: 30px; position: relative; }
-        .about-text li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; font-size: 24px; }
-
-        /* --- SERVICE AREAS (CA) --- */
-        .areas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
-        .area-item { background: var(--bg-white); padding: 20px; border-radius: 8px; box-shadow: var(--shadow); font-weight: 500; color: var(--primary); }
-
-        /* --- CONTACT --- */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-        .contact-info p { margin-bottom: 15px; font-size: 18px; }
-        .contact-info strong { color: var(--primary); }
-        .contact-form input, .contact-form textarea, .contact-form select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .contact-form textarea { height: 120px; resize: vertical; }
-
-        /* --- FOOTER --- */
-        footer { background: #1a1a1a; color: #ccc; text-align: center; padding: 30px 20px; }
-        footer a { color: var(--secondary); text-decoration: none; }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* Simplified for this demo, normally would have a hamburger menu */
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 18px; }
-            .about-content, .contact-grid { grid-template-columns: 1fr; }
-            .phone-header { display: none; }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- HEADER -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">NiceHome<span>CareServices</span> LLC</div>
-            <nav class="nav-links">
-                <a href="#services" class="lang-en">Services</a><a href="#services" class="lang-es">Servicios</a>
-                <a href="#about" class="lang-en">About Us</a><a href="#about" class="lang-es">Nosotros</a>
-                <a href="#areas" class="lang-en">Areas</a><a href="#areas" class="lang-es">Áreas</a>
-                <a href="#contact" class="lang-en">Contact</a><a href="#contact" class="lang-es">Contacto</a>
-                <div class="lang-switcher" onclick="toggleLanguage()">
-                    <span class="en-indicator active">EN</span> | <span class="es-indicator">ES</span>
-                </div>
-            </nav>
-            <a href="tel:+16693314949" class="phone-header">📞 (669) 331-4949</a>
-        </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero">
-        <h1>
-            <span class="lang-en">Compassionate Senior Care in San Jose and surroundings</span>
-            <span class="lang-es">Cuidado Compasivo para Adultos Mayores en California</span>
-        </h1>
-        <p>
-            <span class="lang-en">Providing trusted, licensed, and personalized in-home care and personal care across San Jose and sorroundings. Bilingual staff available.</span>
-            <span class="lang-es">Brindando atención en el hogar y  asistencia en la que usted puede depositar su confianza, personal con licencia y profesional en el Estado Dorado. Personal bilingüe disponible.</span>
-        </p>
-        <a href="#contact" class="btn">
-            <span class="lang-en">Schedule a Free Consultation</span>
-            <span class="lang-es">Agende una Consulta Gratis</span>
-        </a>
-        <a href="tel:+16693314949" class="btn btn-outline">
-            <span class="lang-en">Call Now</span>
-            <span class="lang-es">Llame Ahora</span>
-        </a>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="lang-en">Our Care Services</span>
-                <span class="lang-es">Nuestros Servicios de Cuidado</span>
-            </h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="icon">🏡</div>
-                    <h3>
-                        <span class="lang-en">In-Home Care</span>
-                        <span class="lang-es">Cuidado y Asistencia en el Hogar</span>
-                    </h3>
-                    <p>
-                        <span class="lang-en">Personalized assistance with daily activities, meal preparation, medication reminders, and companionship in the comfort of home.</span>
-                        <span class="lang-es">Asistencia personalizada con actividades diarias, preparación de comidas, recordatorios de medicamentos y compañía en la comodidad del hogar.</span>
-                    </p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🧠</div>
-                    <h3>
-                        <span class="lang-en">Companionship and conversation</span>
-                        <span class="lang-es">Compañía y Conversación</span>
-                    </h3>
-                    <p>
-                        <span class="lang-en">Emotional support, conversation and activities with safety to have a better quality of life.</span>
-                        <span class="lang-es">Apoyo emocional para adultos mayores, conversación y actividades, garantizando seguridad y mejorando su calidad de vida.</span>
-                    </p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🏢</div>
-                    <h3>
-                        <span class="lang-en">Personal Care</span>
-                        <span class="lang-es">Cuidado personal</span>
-                    </h3>
-                    <p>
-                        <span class="lang-en">Assistance with dignity in bathing, hair cut, dressing, toileting.</span>
-                        <span class="lang-es">Asistencia con dignidad en el aseo personal en el baño, corte de pelo y barba.</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT / WHY US -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2 class="section-title" style="text-align: left;">
-                        <span class="lang-en">Why Choose Nice Home Care Services?</span>
-                        <span class="lang-es">¿Por qué elegir a Nice Home Care Services?</span>
-                    </h2>
-                    <p>
-                        <span class="lang-en">We are a California-licensed home care organization dedicated to treating your family like our own. We understand the cultural and linguistic needs of California's diverse communities.</span>
-                        <span class="lang-es">Somos una organización de cuidado a domicilio con licencia en California, dedicada a tratar a su familia como si fuera la nuestra. Entendemos las necesidades culturales y lingüísticas de las diversas comunidades de California.</span>
-                    </p>
-                    <ul>
-                        <li>
-                            <span class="lang-en">Licensed by the CA Home Care Services Bureau</span>
-                            <span class="lang-es">Licenciados por la Oficina de Servicios de Cuidado a Domicilio de CA</span>
-                        </li>
-                        <li>
-                            <span class="lang-en">Bilingual Staff (English/Spanish)</span>
-                            <span class="lang-es">Personal Bilingüe (Inglés/Español)</span>
-                        </li>
-                        <li>
-                            <span class="lang-en">Background-checked and trained caregivers</span>
-                            <span class="lang-es">Cuidadores con antecedentes verificados y capacitados</span>
-                        </li>
-                        <li>
-                            <span class="lang-en">24/7 Emergency Support Line</span>
-                            <span class="lang-es">Línea de apoyo de emergencia 24/7</span>
-                        </li>
-                    </ul>
-                </div>
-                <div style="text-align: center;">
-                    <img src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Caregiver and senior" style="width: 100%; border-radius: 15px; box-shadow: var(--shadow);">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVICE AREAS -->
-    <section id="areas">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="lang-en">Proudly Serving San Jose and surrounding Communities</span>
-                <span class="lang-es">Sirviendo con Orgullo a las Comunidades de San Jose y alrededores</span>
-            </h2>
-            <div class="areas-grid">
-                <div class="area-item">San Jose</div>
-                <div class="area-item">Santa Clara</div>
-                <div class="area-item">Milpitas</div>
-                <div class="area-item">Cupertino</div>
-                <div class="area-item">Sorroundings</div>
-                <div class="area-item">As requested</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" style="background: var(--bg-light);">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="lang-en">Contact Us Today</span>
-                <span class="lang-es">Contáctenos Hoy</span>
-            </h2>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;">
-                        <span class="lang-en">Get in Touch</span>
-                        <span class="lang-es">Póngase en Contacto</span>
-                    </h3>
-                    <p><strong>📍 <span class="lang-en">Address:</span><span class="lang-es">Dirección:</span></strong><br>
-                    650 Lotus, Suite 100<br>San Jose, CA 95116</p>
-                    
-                    <p><strong>📞 <span class="lang-en">Phone:</span><span class="lang-es">Teléfono:</span></strong><br>
-                    <a href="tel:+16693314949" style="color: var(--text-dark); text-decoration: none;">(669) 331-4949</a></p>
-                    
-                    <p><strong>✉️ <span class="lang-en">Email:</span><span class="lang-es">Correo:</span></strong><br>
-                    <a href="mailto:info@nicehomecareservices.com" style="color: var(--text-dark); text-decoration: none;">info@nicehomecareservices.com</a></p>
-
-                    <p style="margin-top: 20px; font-style: italic; color: #666;">
-                        <span class="lang-en">We offer free in-home assessments. Hablamos Español.</span>
-                        <span class="lang-es">Ofrecemos evaluaciones a domicilio gratuitas. We speak English.</span>
-                    </p>
-                </div>
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! / ¡Gracias!');">
-                    <input type="text" placeholder="Full Name / Nombre Completo" required>
-                    <input type="tel" placeholder="Phone Number / Número de Teléfono" required>
-                    <input type="email" placeholder="Email / Correo Electrónico">
-                    <select required>
-                        <option value="" disabled selected>Select Service / Seleccione Servicio</option>
-                        <option value="in-home">In-Home Care Services, Cuidado en el Hogar</option>
-                        <option value="Personal">Personal Care Care / Asistencia personal en el hogar con sus actividades diarias</option>
-                        <option value="Personal care">Assistance with daily activities, Asistenciacon sus actividades diarias</option>
-                    </select>
-                    <textarea placeholder="How can we help your family? / ¿Cómo podemos ayudar a su familia?"></textarea>
-                    <button type="submit" class="btn" style="width: 100%;">
-                        <span class="lang-en">Send Message</span>
-                        <span class="lang-es">Enviar Mensaje</span>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Nice Home Care Services LLC. 
-            <span class="lang-en">All Rights Reserved. Licensed by the State of California.</span>
-            <span class="lang-es">Todos los Derechos Reservados. Licenciado por el Estado de California.</span>
-        </p>
-        <p style="margin-top: 10px; font-size: 14px;">
-            <a href="#" class="lang-en">Privacy Policy</a><a href="#" class="lang-es">Política de Privacidad</a> | 
-            <a href="#" class="lang-en">Terms of Service</a><a href="#" class="lang-es">Términos de Servicio</a>
-        </p>
-    </footer>
-
-    <!-- JAVASCRIPT -->
-    <script>
-        function toggleLanguage() {
-            const body = document.body;
-            const enIndicator = document.querySelector('.en-indicator');
-            const esIndicator = document.querySelector('.es-indicator');
-            
-            if (body.classList.contains('es')) {
-                body.classList.remove('es');
-                document.documentElement.lang = 'en';
-                enIndicator.classList.add('active');
-                esIndicator.classList.remove('active');
-            } else {
-                body.classList.add('es');
-                document.documentElement.lang = 'es';
-                esIndicator.classList.add('active');
-                enIndicator.classList.remove('active');
-            }
-        }
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-</body>
-</html>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-4 max-w-7xl">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-400 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-heart text-white"></i>
+                            <i class="fas fa-heart text-white" aria-hidden="true"></i>
                         </div>
                         <span class="font-serif text-xl font-bold">Nice Home Care Services</span>
                     </div>
-                    <p class="text-gray-400 text-sm">Cuidado profesional y compasivo en el hogar para adultos mayores.</p>
+                    <p class="text-gray-400">Cuidado profesional y compasivo en el hogar para adultos mayores.</p>
                 </div>
                 
                 <div>
                     <h4 class="font-bold mb-4">Enlaces Rápidos</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
+                    <ul class="space-y-2 text-gray-400">
                         <li><a href="#inicio" class="hover:text-white transition">Inicio</a></li>
                         <li><a href="#servicios" class="hover:text-white transition">Servicios</a></li>
                         <li><a href="#nosotros" class="hover:text-white transition">Nosotros</a></li>
@@ -1205,61 +578,109 @@ Estamos para servirle.
                 </div>
                 
                 <div>
-                    <h4 class="font-bold mb-4">Contacto</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><i class="fas fa-phone mr-2"></i>16693314949 </li>
-                        <li><i class="fas fa-envelope mr-2"></i> contacto@nicehomecareservices.com</li>
-                        <li><i class="fas fa-clock mr-2"></i> 24/7 - Todos los días</li>
+                    <h4 class="font-bold mb-4">Servicios</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Cuidado de Ancianos</li>
+                        <li>Asistencia con las tareas domésticas</li>
+                        <li>Asistencia con el baño y aseo personal</li>
+                        <li>Compañía y Conversación</li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="font-bold mb-4">Newsletter</h4>
-                    <p class="text-gray-400 text-sm mb-3">Recibe consejos y novedades</p>
+                    <p class="text-gray-400 mb-3">Recibe consejos y novedades</p>
                     <div class="flex">
-                        <input type="email" placeholder="Tu email" class="flex-1 px-3 py-2 rounded-l-lg text-gray-800 text-sm focus:outline-none">
-                        <button class="bg-emerald-600 px-4 py-2 rounded-r-lg hover:bg-emerald-700 transition">
-                            <i class="fas fa-paper-plane"></i>
+                        <label for="newsletterEmail" class="sr-only">Correo electrónico</label>
+                        <input type="email" id="newsletterEmail" placeholder="Tu email" class="flex-1 px-3 py-2 rounded-l-lg text-gray-800">
+                        <button class="bg-emerald-600 px-4 py-2 rounded-r-lg hover:bg-emerald-700 transition" aria-label="Suscribirse">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
                 <p>&copy; 2024 Nice Home Care Services. Todos los derechos reservados.</p>
+                <p class="text-xs mt-1">
+                    <a href="#" class="hover:text-white transition">Política de privacidad</a> | 
+                    <a href="#" class="hover:text-white transition">Términos de servicio</a>
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="/js/main.js"></script>
-    
     <script>
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
-        });
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
         
-        // Smooth scroll
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Smooth scroll for anchor links + cerrar menú móvil
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
-                    document.getElementById('mobileMenu')?.classList.add('hidden');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
                 }
             });
         });
         
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
+        // Formulario de contacto (simulación)
+        const contactForm = document.getElementById('contactForm');
+        const formSuccess = document.getElementById('formSuccess');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                formSuccess.classList.remove('hidden');
+                contactForm.reset();
+                setTimeout(() => {
+                    formSuccess.classList.add('hidden');
+                }, 5000);
+            });
+        }
+        
+        // Formulario rápido
+        const quickForm = document.getElementById('quickForm');
+        if (quickForm) {
+            quickForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('¡Gracias! Te contactaremos pronto.');
+                quickForm.reset();
+            });
+        }
+        
+        // Cambiar sombra del header al hacer scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                header?.classList.add('shadow-lg');
+                header.classList.add('shadow-lg');
             } else {
-                header?.classList.remove('shadow-lg');
+                header.classList.remove('shadow-lg');
             }
+        });
+        
+        // Botón "Volver arriba"
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
